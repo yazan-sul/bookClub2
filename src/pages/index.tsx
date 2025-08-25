@@ -1,16 +1,30 @@
+import { Book } from "./components/bookCard";
+
 import Link from "next/link";
 import HeaderBar from "./components/headerBar";
 import WelcomeMessage from "./components/welcomeMessage";
 import CurrentlyReading from "./components/currentlyReading";
 import WantToRead from "./components/wantToRead";
+import BooksSection from "./components/booksSection";
+import Footer from "./components/footer";
+
+type HomeProps = {
+  currentlyReading: Book[];
+  wantToRead: Book[];
+  previously_read: Book[];
+};
 
 export default function Home({
   currentlyReading,
   wantToRead,
-}: {
-  currentlyReading: [];
-  wantToRead: [];
-}) {
+  previously_read,
+}: HomeProps) {
+  const allBooks = {
+    currentlyReading,
+    wantToRead,
+    previously_read,
+  };
+  
   return (
     <div className="bg-slate-100 text-center">
       <HeaderBar />
@@ -25,13 +39,10 @@ export default function Home({
             <WantToRead books={wantToRead} />
           </div>
         </div>
+        <BooksSection books={allBooks} />
+        
       </div>
-      <Link
-        href="/profile"
-        className="text-blue-500 underline mt-4 inline-block"
-      >
-        Go to Profile Page
-      </Link>
+      <Footer />
     </div>
   );
 }
