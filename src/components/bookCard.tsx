@@ -30,7 +30,7 @@ export default function BookCard({ book }: { book: Book }) {
 
       <div className="flex flex-col mt-3 px-2 space-y-1 text-start">
         <Link
-          href="#"
+          href={`/book/${book.volume_id}`} 
           className="font-semibold text-lg line-clamp-2 hover:underline"
         >
           {book.title}

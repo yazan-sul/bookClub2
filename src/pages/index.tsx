@@ -27,7 +27,6 @@ export default function Home({
   
   return (
     <div className="bg-slate-100 text-center">
-      <HeaderBar />
       <div className="bg-slate-100 text-start ml-56">
         <WelcomeMessage name={"Yazan"} />
         <div className="flex">
@@ -42,7 +41,6 @@ export default function Home({
         <BooksSection books={allBooks} />
         
       </div>
-      <Footer />
     </div>
   );
 }
