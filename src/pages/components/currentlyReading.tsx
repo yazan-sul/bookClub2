@@ -7,7 +7,8 @@ type CurrentlyReadingProps = {
 export default function CurrentlyReading({ books }: CurrentlyReadingProps) {
   return (
     <div>
-      <h2>Currently Reading</h2>
+
+      <h2 className='font-bold text-3xl mb-2'>Currently Reading</h2>
       <div className="flex gap-6 flex-wrap">
         {books.map((book) => {
           const bookData: Book = {
