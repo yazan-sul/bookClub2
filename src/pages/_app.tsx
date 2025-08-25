@@ -5,9 +5,11 @@ import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <HeaderBar />
-      <Component {...pageProps} />
+      <main className="flex-grow">
+        <Component {...pageProps} />
+      </main>
       <Footer />
     </div>
   );
