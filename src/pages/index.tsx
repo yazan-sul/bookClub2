@@ -1,12 +1,12 @@
-import { Book } from "./components/bookCard";
+import { Book } from "../components/bookCard";
 
 import Link from "next/link";
-import HeaderBar from "./components/headerBar";
-import WelcomeMessage from "./components/welcomeMessage";
-import CurrentlyReading from "./components/currentlyReading";
-import WantToRead from "./components/wantToRead";
-import BooksSection from "./components/booksSection";
-import Footer from "./components/footer";
+import HeaderBar from "../components/headerBar";
+import WelcomeMessage from "../components/welcomeMessage";
+import CurrentlyReading from "../components/currentlyReading";
+import WantToRead from "../components/wantToRead";
+import BooksSection from "../components/booksSection";
+import Footer from "../components/footer";
 
 type HomeProps = {
   currentlyReading: Book[];
