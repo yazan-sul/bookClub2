@@ -17,26 +17,20 @@ export interface Book {
   end_time: string;
 }
 
-export default function BookCard({ book }: { book: Book }) {
+export default function WantToReadCard({ book }: { book: Book }) {
   return (
-    <div className="w-full">
-      <div className="bg-blue-500 rounded-md flex justify-center items-center p-4">
-        <img
-          className="rounded-md object-contain w-28 h-40"
-          src={book.img}
-          alt={book.title}
-        />
-      </div>
-
-      <div className="flex flex-col mt-3 px-2 space-y-1 text-start">
+    <div className="h-40 w-full bg-white rounded-xl shadow-md p-2 flex flex-col text-start items-start">
+      
+      <div className="flex flex-col mt-3  space-y-1 text-start">
         <Link
           href="#"
-          className="font-semibold text-lg line-clamp-2 hover:underline"
+          className="font-semibold text-lg  hover:underline"
         >
           {book.title}
         </Link>
-        <p className="text-slate-500 text-sm">{book.authors}</p>
+        <p className="text-slate-800 text-sm">{book.authors}</p>
       </div>
+      <button type="button" className="text-gray-500 text-base hover:underline transition">Mark as reading</button>
     </div>
   );
 }
