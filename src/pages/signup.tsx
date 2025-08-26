@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { useRef } from "react";
 import { useRouter } from "next/router";
+import SignupForm from "@/components/signupForm";
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -15,27 +15,24 @@ export default function Signup() {
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
     try {
-      const res = await fetch(
-        `https://bookclub-backend.nn.r.appspot.com/api/v1/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, username, password }),
-        }
-      );
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username, password }),
+      });
       if (!res.ok) {
         throw Error("Failed to regiester");
       } else {
         const data = await res.json();
 
         const profile = await fetch(`/api/profile?user_id=${data.user_id}`);
-        const profileData = await profile.json();
-        await router.push("/");
+        localStorage.setItem("user_id", data.user_id);
+        router.push("/");
       }
     } catch (error) {
-      return notFound;
+      console.error("Signup error:", error);
     }
   };
   return (
@@ -47,52 +44,11 @@ export default function Signup() {
         </div>
         <div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label
-                htmlFor="emailAddress"
-                className="block  text-lg font-semibold  text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                id="emailAddress"
-                type="email"
-                ref={emailRef}
-                placeholder="yazan@gmail.com"
-                className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="block  text-lg font-semibold  text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                type="text"
-                ref={usernameRef}
-                placeholder="yazan"
-                className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block  text-lg font-semibold  text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                ref={passwordRef}
-                placeholder="••••••••"
-                className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            <SignupForm
+              emailRef={emailRef}
+              usernameRef={usernameRef}
+              passwordRef={passwordRef}
+            />
             <div className="pt-4">
               <button
                 type="submit"
@@ -106,7 +62,7 @@ export default function Signup() {
       </div>
       <Link
         className="hover:underline transition-all duration-200"
-        href="./singing"
+        href="./signin"
       >
         Already have an account? Sign in here
       </Link>
