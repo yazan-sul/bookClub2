@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   const res = await fetch(
-    `https://bookclub-backend.nn.r.appspot.com/api/v1/98aac522330f4c29882dcfd3736822ad/shelves`
+    `${process.env.PUBLIC_API}/98aac522330f4c29882dcfd3736822ad/shelves`
   );
   const data = await res.json();
   const allBooks: Book[] = [

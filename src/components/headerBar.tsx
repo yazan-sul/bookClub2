@@ -25,13 +25,13 @@ export default function HeaderBar() {
           className="font-semibold text-lg p-3 transition-colors duration-200 rounded-lg hover:bg-slate-100 hover:shadow-sm"
           href=""
         >
-          Sing IN
+          Sign In
         </Link>
         <Link
           className="font-semibold text-lg p-3 text-white bg-indigo-500 transition-colors duration-200 rounded-lg hover:bg-slate-100 hover:shadow-sm"
-          href=""
+          href="./signup"
         >
-          Sing Up
+          Sign Up
         </Link>
       </div>
     </div>

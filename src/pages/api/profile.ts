@@ -9,8 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    
     const backendRes = await fetch(
-      `https://bookclub-backend.nn.r.appspot.com/api/v1/${user_id}/profile`
+      `${process.env.PUBLIC_API}/${user_id}/profile`
     );
 
     if (!backendRes.ok) {
