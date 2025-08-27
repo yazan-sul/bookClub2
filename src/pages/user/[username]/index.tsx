@@ -1,4 +1,5 @@
 // pages/user/[username].tsx
+import BooksContainerProfile from "@/components/booksContainerProfile";
 import UserProfileCard, { User } from "@/components/profileCard";
 import { fetchUserProfile } from "@/pages/api/userData";
 import { GetServerSideProps } from "next";
@@ -13,8 +14,9 @@ export default function UserProfile({
   username,
 }: UserProfileProps) {
   return (
-    <div className="max-w-screen-xl mx-auto space-y-20 p-28">
+    <div className="flex flex-row  max-w-screen-xl mx-auto p-28 space-x-12">
       <UserProfileCard username={username} user={profileData} />
+
     </div>
   );
 }
@@ -29,5 +31,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: data,
   };
-
 };
