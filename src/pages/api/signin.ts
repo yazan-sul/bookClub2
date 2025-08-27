@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
         try {
-            const response = await fetch(`${process.env.PUBLIC_API}/register`,
+            const response = await fetch(`${process.env.PUBLIC_API}/login`,
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
