@@ -1,6 +1,7 @@
 import { User } from "@/components/profileCard";
 import Settings from "@/components/settings";
-import { fetchUserProfile } from "@/pages/api/userData";
+import { fetchUserProfile } from "@/utils/userData";
+
 import { GetServerSideProps } from "next";
 
 interface SettingsPageProps {

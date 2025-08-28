@@ -16,18 +16,14 @@ export default function UserProfileCard({
   username: string;
   user: User;
 }) {
-  // const firstName = localStorage.getItem("firstName") || "";
-  // const lastName = localStorage.getItem("lastName") || "";
-  // const location = localStorage.getItem("location") || "";
-  // const bio = localStorage.getItem("about") || "";
 
   const bio = user.bio;
   const firstName = user.first_name;
   const lastName = user.last_name;
   const location = user.location;
 
-  const fullname = `${firstName} ${lastName}`.trim();
 
+  const fullname = [firstName, lastName].filter(Boolean).join(" ").trim();
   return (
     <div className="relative flex flex-col bg-white px-6 pt-16 pb-6 rounded-lg shadow-lg max-w-sm mx-auto">
       <div className="absolute -top-12 left-0 w-full flex justify-center">

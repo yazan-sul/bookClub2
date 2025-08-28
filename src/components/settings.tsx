@@ -53,8 +53,6 @@ export default function Settings({ user }: { user: User }) {
 
       const result = await response.text();
 
-      console.log("Response:", response.status, result);
-
       if (!response.ok) {
         throw new Error(`Failed to update profile: ${response.status}`);
       }

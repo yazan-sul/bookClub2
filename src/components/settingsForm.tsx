@@ -1,8 +1,9 @@
 import React from "react";
 import { User } from "./profileCard";
+import InputField from "./InputField";
 
 interface UserFormFieldsProps {
-  user: User
+  user: User;
   firstNameRef: React.Ref<HTMLInputElement>;
   lastNameRef: React.Ref<HTMLInputElement>;
   aboutRef: React.Ref<HTMLInputElement>;
@@ -18,69 +19,34 @@ const SettingsForm: React.FC<UserFormFieldsProps> = ({
 }) => {
   return (
     <>
-      <div>
-        <label
-          htmlFor="firstname"
-          className="block text-lg font-semibold text-gray-700"
-        >
-          First Name
-        </label>
-        <input
-          id="firstname"
-          type="text"
-          ref={firstNameRef}
-          defaultValue={user.first_name ?? ""}
-          className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="lastname"
-          className="block text-lg font-semibold text-gray-700"
-        >
-          Last Name
-        </label>
-        <input
-          id="lastname"
-          type="text"
-          ref={lastNameRef}
-          defaultValue={user.last_name ?? ""}
-          className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="about"
-          className="block text-lg font-semibold text-gray-700"
-        >
-          About
-        </label>
-        <input
-          id="about"
-          type="text"
-          ref={aboutRef}
-          defaultValue={user.bio ?? ""}
-          className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="location"
-          className="block text-lg font-semibold text-gray-700"
-        >
-          Location
-        </label>
-        <input
-          id="location"
-          type="text"
-          ref={locationRef}
-          defaultValue={user.location ?? ""}
-          className="mt-1 w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <InputField
+        label="First name"
+        name="firstname"
+        ref={firstNameRef}
+        defaultValue={user.first_name ?? ""}
+        type="text"
+      />
+      <InputField
+        label="Last Name"
+        name="lastname"
+        ref={lastNameRef}
+        defaultValue={user.last_name ?? ""}
+        type="text"
+      />
+      <InputField
+        label="about"
+        name="about"
+        ref={aboutRef}
+        defaultValue={user.bio ?? ""}
+        type="text"
+      />
+      <InputField
+        label="location"
+        name="location"
+        ref={locationRef}
+        defaultValue={user.location ?? ""}
+        type="text"
+      />
     </>
   );
 };

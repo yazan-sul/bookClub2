@@ -1,7 +1,7 @@
 // pages/user/[username].tsx
 import BooksContainerProfile from "@/components/booksContainerProfile";
 import UserProfileCard, { User } from "@/components/profileCard";
-import { fetchUserProfile } from "@/pages/api/userData";
+import { fetchUserProfile } from "@/utils/userData";
 import { GetServerSideProps } from "next";
 
 interface UserProfileProps {
