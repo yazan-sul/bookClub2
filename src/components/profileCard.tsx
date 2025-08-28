@@ -1,3 +1,5 @@
+import { use } from "react";
+
 export interface User {
   user_id: string;
   first_name?: string;
@@ -16,16 +18,15 @@ export default function UserProfileCard({
   username: string;
   user: User;
 }) {
-
+  
   const bio = user.bio;
   const firstName = user.first_name;
   const lastName = user.last_name;
   const location = user.location;
 
-
   const fullname = [firstName, lastName].filter(Boolean).join(" ").trim();
   return (
-    <div className="relative flex flex-col bg-white px-6 pt-16 pb-6 rounded-lg shadow-lg max-w-sm mx-auto">
+    <div className="relative h-72 w-72 flex flex-col bg-white px-6 pt-16 pb-6 rounded-lg shadow-lg ">
       <div className="absolute -top-12 left-0 w-full flex justify-center">
         <img
           src="/favicon.ico"

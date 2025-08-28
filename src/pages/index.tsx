@@ -3,6 +3,7 @@ import WelcomeMessage from "../components/welcomeMessage";
 import CurrentlyReading from "../components/currentlyReading";
 import WantToRead from "../components/wantToRead";
 import BooksSection from "../components/booksSection";
+import {  mapBookData } from "@/utils/userData";
 
 type HomeProps = {
   currentlyReading: Book[];
@@ -57,18 +58,3 @@ export async function getServerSideProps() {
   };
 }
 
-function mapBookData(book: any): Book {
-  return {
-    volume_id: book.volume_id,
-    title: book.title,
-    subtitle: book.subtitle,
-    authors: book.authors?.length ? book.authors : ["Unknown"],
-    desc: book.desc || "",
-    ratings: book.ratings || {},
-    img: book.img,
-    detail: book.detail || { pubDate: "", pages: 0, lang: "" },
-    shelf: book.shelf || "",
-    start_time: book.start_time || "",
-    end_time: book.end_time || "",
-  };
-}

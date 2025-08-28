@@ -4,17 +4,20 @@ import BookCard, { Book } from "./bookCard";
 interface BooksSectionProps {
   title: string;
   subtitle: string;
-  books?: Book[];
-
+  books: Book[];
 }
 
-export default function BooksContainerProfile({ title, subtitle }: BooksSectionProps) {
+export default function BooksContainerProfile({
+  title,
+  subtitle,
+  books,
+}: BooksSectionProps) {
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h2 className="text-2xl font-semibold">{title}</h2>
-          <p className="text-gray-600 text-sm">{subtitle}</p>
+    <div className="max-w-4xl mx-auto px-6 pb-6">
+      <div className="flex justify-between items-start mb-4">
+        <div className="space-y-2">
+          <h2 className="text-base font-light text-gray-500 uppercase">{title}</h2>
+          <p className=" text-slate-900 text-basE">{subtitle}</p>
         </div>
 
         <button
@@ -24,20 +27,15 @@ export default function BooksContainerProfile({ title, subtitle }: BooksSectionP
           Show all
         </button>
       </div>
-
-      <div className="flex flex-col bg-white  gap-6">
-        <h1>hi</h1>
-        <h2>das</h2>
-        {/* {books.length > 0 ? (
-          books.map((book, idx) => (
-            <div key={idx}>
-              <BookCard book={book} />
-            </div>
-          ))
-        ) : (
-          <p className="text-gray-500 italic">No books available.</p>
-        )} */}
-      </div>
+      {books?.length > 0 ? (
+        books.map((book, idx) => (
+          <div key={idx} className="flex flex-col bg-white  gap-6 mt-4">
+            <BookCard book={book} flag />
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-500 italic">No books available.</p>
+      )}
     </div>
   );
 }

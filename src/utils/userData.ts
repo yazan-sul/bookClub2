@@ -1,3 +1,4 @@
+import { Book } from "@/components/bookCard";
 import { User } from "@/components/profileCard";
 
 export const fetchUserProfile = async (username: string) => {
@@ -28,3 +29,19 @@ return { profileData, username };
     return null;
 }
 };
+
+export function mapBookData(book: any): Book {
+  return {
+    volume_id: book.volume_id,
+    title: book.title,
+    subtitle: book.subtitle,
+    authors: book.authors?.length ? book.authors : ["Unknown"],
+    desc: book.desc || "",
+    ratings: book.ratings || {},
+    img: book.img,
+    detail: book.detail || { pubDate: "", pages: 0, lang: "" },
+    shelf: book.shelf || "",
+    start_time: book.start_time || "",
+    end_time: book.end_time || "",
+  };
+}
