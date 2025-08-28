@@ -1,17 +1,16 @@
+import React, { useEffect, useState } from "react";
 import { isLoggedIn } from "@/utils/auth";
 import Link from "next/link";
 import UserMenu from "./userMenu";
-import { useEffect, useState } from "react";
+
 
 export default function HeaderBar() {
-  const user = { name: "Yazan" };
   const [isLogged, setIsLogged] = useState<boolean | null>(null);
-
   useEffect(() => {
     setIsLogged(isLoggedIn());
   }, []);
-   if (isLogged === null) {
 
+  if (isLogged === null) {
     return null;
   }
 
@@ -35,7 +34,7 @@ export default function HeaderBar() {
         />
       </div>
       {isLogged ? (
-        <UserMenu user={user} />
+        <UserMenu />
       ) : (
         <div className="flex gap-6 pl-6">
           <Link

@@ -20,7 +20,7 @@ export default function WelcomeMessage() {
     <div className="my-8">
       {loggedIn ? (
         <>
-          <h1 className="font-bold text-3xl py-2">Welcome back 👋</h1>
+          <h1 className="font-bold text-3xl py-2">Welcome back, {localStorage.getItem("username")} 👋</h1>
           <p className="text-sm text-slate-700">
             What would you like to read today?
           </p>
