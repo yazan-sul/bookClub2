@@ -4,10 +4,10 @@ import InputField from "./InputField";
 
 interface UserFormFieldsProps {
   user: User;
-  firstNameRef: React.Ref<HTMLInputElement>;
-  lastNameRef: React.Ref<HTMLInputElement>;
-  aboutRef: React.Ref<HTMLInputElement>;
-  locationRef: React.Ref<HTMLInputElement>;
+  firstNameRef: React.RefObject<HTMLInputElement>;
+  lastNameRef: React.RefObject<HTMLInputElement>;
+  aboutRef: React.RefObject<HTMLInputElement>;
+  locationRef: React.RefObject<HTMLInputElement>;
 }
 
 const SettingsForm: React.FC<UserFormFieldsProps> = ({
@@ -22,28 +22,28 @@ const SettingsForm: React.FC<UserFormFieldsProps> = ({
       <InputField
         label="First name"
         name="firstname"
-        ref={firstNameRef}
+        inputRef={firstNameRef}
         defaultValue={user.first_name ?? ""}
         type="text"
       />
       <InputField
         label="Last Name"
         name="lastname"
-        ref={lastNameRef}
+        inputRef={lastNameRef}
         defaultValue={user.last_name ?? ""}
         type="text"
       />
       <InputField
         label="about"
         name="about"
-        ref={aboutRef}
+        inputRef={aboutRef}
         defaultValue={user.bio ?? ""}
         type="text"
       />
       <InputField
         label="location"
         name="location"
-        ref={locationRef}
+        inputRef={locationRef}
         defaultValue={user.location ?? ""}
         type="text"
       />

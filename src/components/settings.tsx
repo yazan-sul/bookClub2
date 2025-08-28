@@ -20,6 +20,7 @@ export default function Settings({ user }: { user: User }) {
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    
     const updatedData = {
       firstName: firstNameConst,
       lastName: lastNameConst,

@@ -14,14 +14,14 @@ export default function SignupForm({
       <InputField
         label="Email Address"
         name="emailAddress"
-        ref={emailRef}
+        inputRef={emailRef}
         placeHolder={"user@gmail.com"}
         type="text"
       />
       <InputField
         label="Username"
         name="username"
-        ref={usernameRef}
+        inputRef={usernameRef}
         placeHolder={"yazan123"}
         type="text"
       />
@@ -29,7 +29,7 @@ export default function SignupForm({
         <InputField
           label="Password"
           name="password"
-          ref={passwordRef}
+          inputRef={passwordRef}
           placeHolder={""}
           type="password"
         />

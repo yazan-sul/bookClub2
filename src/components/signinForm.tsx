@@ -12,14 +12,14 @@ export default function SigninForm({
       <InputField
         label="Username"
         name="username"
-        ref={usernameRef}
+        inputRef={usernameRef}
         placeHolder={"yazan"}
         type="text"
       />
       <InputField
         label="Password"
         name="password"
-        ref={passwordRef}
+        inputRef={passwordRef}
         placeHolder={""}
         type="password"
       />
