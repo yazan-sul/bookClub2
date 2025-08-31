@@ -26,7 +26,7 @@ export default function UserProfileCard({
 
   const fullname = [firstName, lastName].filter(Boolean).join(" ").trim();
   return (
-    <div className="relative h-72 w-72 flex flex-col bg-white px-6 pt-16 pb-6 rounded-lg shadow-lg ">
+    <div className="relative h-72 w-80 flex flex-col bg-white px-6 pt-16 pb-6 rounded-lg shadow-lg ">
       <div className="absolute -top-12 left-0 w-full flex justify-center">
         <img
           src="/favicon.ico"

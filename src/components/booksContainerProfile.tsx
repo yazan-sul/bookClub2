@@ -1,13 +1,18 @@
 import React from "react";
 import BookCard, { Book } from "./bookCard";
+import Link from "next/link";
 
 interface BooksSectionProps {
+  username: string;
+  shelf: string;
   title: string;
   subtitle: string;
   books: Book[];
 }
 
 export default function BooksContainerProfile({
+  username,
+  shelf,
   title,
   subtitle,
   books,
@@ -16,16 +21,19 @@ export default function BooksContainerProfile({
     <div className="max-w-4xl mx-auto px-6 pb-6">
       <div className="flex justify-between items-start mb-4">
         <div className="space-y-2">
-          <h2 className="text-base font-light text-gray-500 uppercase">{title}</h2>
+          <h2 className="text-base font-light text-gray-500 uppercase">
+            {title}
+          </h2>
           <p className=" text-slate-900 text-basE">{subtitle}</p>
         </div>
 
-        <button
-          className="text-blue-600 font-semibold hover:underline focus:outline-none"
+        <Link
+          className="text-indigo-500  hover:underline focus:outline-none"
           type="button"
+          href={`/user/${username}/shelves/${shelf}`}
         >
           Show all
-        </button>
+        </Link>
       </div>
       {books?.length > 0 ? (
         books.map((book, idx) => (

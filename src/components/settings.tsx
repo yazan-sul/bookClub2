@@ -2,6 +2,7 @@ import FormButton from "@/components/formButton";
 import { User } from "@/components/profileCard";
 import { useRef, useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
+import Spinner from "./spinner";
 
 export default function Settings({ user }: { user: User }) {
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -12,15 +13,15 @@ export default function Settings({ user }: { user: User }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const firstNameConst = firstNameRef.current?.value;
   const lastNameConst = lastNameRef.current?.value;
   const aboutConst = aboutRef.current?.value;
   const locationConst = locationRef.current?.value;
-  
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     const updatedData = {
       firstName: firstNameConst,
       lastName: lastNameConst,
@@ -41,7 +42,7 @@ export default function Settings({ user }: { user: User }) {
 
     try {
       const response = await fetch(
-        `https://bookclub-backend.nn.r.appspot.com/api/v1/${user.user_id}/profile`,
+        `${process.env.PUBLIC_API}/${user.user_id}/profile`,
         {
           method: "PATCH",
           headers: {
@@ -86,6 +87,11 @@ export default function Settings({ user }: { user: User }) {
           />
           <FormButton value={loading ? "Saving..." : "Save"} />
 
+          {loading && (
+            <div>
+              <Spinner />
+            </div>
+          )}
           {success && (
             <p className="text-green-600 mt-2">Profile updated successfully!</p>
           )}
