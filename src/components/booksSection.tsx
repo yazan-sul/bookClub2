@@ -1,4 +1,4 @@
-import BookCard, { Book } from './bookCard';
+import BookCard, { Book } from "./bookCard";
 type AllBooks = {
   books: {
     currentlyReading: Book[];

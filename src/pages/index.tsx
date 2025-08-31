@@ -3,7 +3,7 @@ import WelcomeMessage from "../components/welcomeMessage";
 import CurrentlyReading from "../components/currentlyReading";
 import WantToRead from "../components/wantToRead";
 import BooksSection from "../components/booksSection";
-import {  mapBookData } from "@/utils/userData";
+import { mapBookData } from "@/utils/userData";
 
 type HomeProps = {
   currentlyReading: Book[];
@@ -25,7 +25,7 @@ export default function Home({
     <div className="bg-slate-100 min-h-screen py-8 px-4">
       <div className="max-w-screen-xl mx-auto space-y-20">
         <WelcomeMessage />
-        
+
         <div className="flex flex-col md:flex-row gap-12">
           <div className="md:w-1/4">
             <CurrentlyReading books={currentlyReading} />
@@ -57,4 +57,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
