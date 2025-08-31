@@ -17,7 +17,6 @@ export default function Settings({ user }: { user: User }) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(e.target);
     const target = e.target as typeof e.target & {
       firstName: { value: string };
       lastName: { value: string };
@@ -59,9 +58,6 @@ export default function Settings({ user }: { user: User }) {
 
       const text = await response.text();
 
-      console.log("Status:", response.status);
-      console.log("Content-Type:", contentType);
-      console.log("Response text:", text);
       localStorage.setItem("firstName", updatedData.firstName);
       localStorage.setItem("lastName", updatedData.lastName);
       localStorage.setItem("about", updatedData.about);
