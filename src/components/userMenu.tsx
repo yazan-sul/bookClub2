@@ -2,20 +2,12 @@ import LogoutButton from "@/pages/logout";
 import Link from "next/link";
 import React, { useState } from "react";
 
-interface User {
-  name: string;
-}
-
-interface UserMenuProps {
-  user: User;
-}
-
-const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
+const UserMenu = () => {
   const [open, setOpen] = useState(false);
+    const username = localStorage.getItem("username");
 
   const toggleMenu = () => setOpen((prev) => !prev);
   const closeMenu = () => setOpen(false);
-
   return (
     <div className="relative inline-block text-left">
       <button
@@ -24,7 +16,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         aria-haspopup="true"
         aria-expanded={open}
       >
-        <span>{user.name}</span>
+        <span>{username}</span>
         <svg
           className="w-3 h-3"
           fill="none"
@@ -54,6 +46,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                 role="menuitem"
                 href="/"
+                onClick={closeMenu}
               >
                 🏠 Home
               </Link>
@@ -62,7 +55,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               <Link
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                 role="menuitem"
-                href="/profile"
+                href={`/user/${username}`}
+                onClick={closeMenu}
               >
                 👤 Profile
               </Link>
@@ -71,7 +65,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               <Link
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                 role="menuitem"
-                href="/settings"
+                href={`/user/${username}/settings`}
+                onClick={closeMenu}
               >
                 ⚙️ Settings
               </Link>

@@ -1,35 +1,34 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { useRouter } from "next/router";
-import SignupForm from "@/components/signupForm";
+import SigninForm from "@/components/signinForm";
 import FormButton from "@/components/formButton";
 
-export default function Signup() {
-  const emailRef = useRef<HTMLInputElement>(null);
+export default function Signin() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const email = emailRef.current?.value || "";
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify({ username, password }),
       });
       if (!res.ok) {
-        throw Error("Failed to regiester");
+        throw Error("Failed to login");
       } else {
         const data = await res.json();
-
-        const profile = await fetch(`/api/profile?user_id=${data.user_id}`);
         localStorage.setItem("user_id", data.user_id);
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("token_expiry", data.expiry);
+        localStorage.setItem("username", data.username);
         router.push("/");
       }
     } catch (error) {
@@ -41,24 +40,19 @@ export default function Signup() {
       <div className="block bg-white rounded-md p-12 w-[400px] mx-auto mt-10 shadow-md border">
         <div className="mb-6 text-center">
           <h2 className="text-2xl font-bold">Paprback</h2>
-          <p className="text-gray-600">Sign up and build your bookshelf</p>
         </div>
         <div>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <SignupForm
-              emailRef={emailRef}
-              usernameRef={usernameRef}
-              passwordRef={passwordRef}
-            />
-            <FormButton value="Sign up"/>
+            <SigninForm usernameRef={usernameRef} passwordRef={passwordRef} />
+            <FormButton value="Sign in" />
           </form>
         </div>
       </div>
       <Link
         className="hover:underline transition-all duration-200"
-        href="./signin"
+        href="./signup"
       >
-        Already have an account? Sign in here
+        Don't have an account? Sign up here
       </Link>
     </div>
   );

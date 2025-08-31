@@ -1,4 +1,4 @@
-import BookCard, { Book } from './bookCard';
+import  { Book } from './bookCard';
 import WantToReadCard from './wantToReadCard';
 
 type WantToReadProps = {
