@@ -4,8 +4,7 @@ import React, { useState } from "react";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);
-    const username = localStorage.getItem("username");
-
+  const username = localStorage.getItem("username");
   const toggleMenu = () => setOpen((prev) => !prev);
   const closeMenu = () => setOpen(false);
   return (

@@ -21,14 +21,14 @@ const SettingsForm: React.FC<UserFormFieldsProps> = ({
     <>
       <InputField
         label="First name"
-        name="firstname"
+        name="firstName"
         inputRef={firstNameRef}
         defaultValue={user.first_name ?? ""}
         type="text"
       />
       <InputField
         label="Last Name"
-        name="lastname"
+        name="lastName"
         inputRef={lastNameRef}
         defaultValue={user.last_name ?? ""}
         type="text"

@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
 
     const backendRes = await fetch(
-      `${process.env.PUBLIC_API}/494a89679b7a44b98e593e880afd9834/profile`
+      `${process.env.PUBLIC_API}/${user_id}/profile`
     );
 
     if (!backendRes.ok) {

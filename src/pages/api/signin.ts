@@ -1,4 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import cookie from "cookie";
+import { serialize } from "cookie";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
@@ -10,6 +12,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     body: JSON.stringify(req.body),
                 });
             const data = await response.json();
+            if (!response.ok) {
+                return res.status(response.status).json(data);
+            }
+
+            const user_id = data?.user_id;
+            const access_token = data?.access_token;
+            res.setHeader("Set-Cookie", [
+                serialize("user_id", user_id, {
+                    httpOnly: false,
+                    secure: process.env.NODE_ENV === "production",
+                    maxAge: 60 * 60 * 24 * 7,
+                    sameSite: "lax",
+                    path: "/",
+                }),
+                serialize("access_token", access_token, {
+                    httpOnly: false,
+                    secure: process.env.NODE_ENV === "production",
+                    maxAge: 60 * 60 * 24 * 7,
+                    sameSite: "lax",
+                    path: "/",
+                }),
+            ]);
+
             res.status(response.status).json(data);
         } catch (error: any) {
             res.status(500).json({ message: "Server Error", error: error.message })

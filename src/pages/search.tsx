@@ -32,7 +32,6 @@ export default function SearchBooks() {
           setSearchResults([]);
         }
       } catch (error) {
-        console.error("Error fetching search results:", error);
         setSearchResults([]);
       } finally {
         setLoading(false);
@@ -50,13 +49,7 @@ export default function SearchBooks() {
         <div className="max-w-screen-2xl mx-auto ">
           <h1 className="text-2xl font-bold mb-4">Search Results for "{q}"</h1>
 
-          <BooksSection
-            books={{
-              currentlyReading: searchResults,
-              wantToRead: [],
-              previously_read: [],
-            }}
-          />
+          <BooksSection books={searchResults} />
         </div>
       ) : (
         <p>No results found.</p>

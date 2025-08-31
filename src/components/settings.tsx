@@ -3,6 +3,7 @@ import { User } from "@/components/profileCard";
 import { useRef, useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
 import Spinner from "./spinner";
+import { parse } from "cookie";
 
 export default function Settings({ user }: { user: User }) {
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -14,24 +15,26 @@ export default function Settings({ user }: { user: User }) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const firstNameConst = firstNameRef.current?.value;
-  const lastNameConst = lastNameRef.current?.value;
-  const aboutConst = aboutRef.current?.value;
-  const locationConst = locationRef.current?.value;
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    console.log(e.target);
+    const target = e.target as typeof e.target & {
+      firstName: { value: string };
+      lastName: { value: string };
+      about: { value: string };
+      location: { value: string };
+    };
     const updatedData = {
-      firstName: firstNameConst,
-      lastName: lastNameConst,
-      about: aboutConst,
-      location: locationConst,
+      firstName: target.firstName.value,
+      lastName: target.lastName.value,
+      about: target.about.value,
+      location: target.location.value,
     };
 
-    const token = localStorage.getItem("access_token");
+    const cookies = parse(document.cookie || "");
+    const access_token = cookies.access_token;
 
-    if (!token) {
+    if (!access_token) {
       setError("You are not authenticated.");
       return;
     }
@@ -42,27 +45,27 @@ export default function Settings({ user }: { user: User }) {
 
     try {
       const response = await fetch(
-        `${process.env.PUBLIC_API}/${user.user_id}/profile`,
+        `${process.env.NEXT_PUBLIC_API}/${user.user_id}/profile`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${access_token}`,
           },
           body: JSON.stringify(updatedData),
         }
       );
+      const contentType = response.headers.get("content-type");
 
-      const result = await response.text();
+      const text = await response.text();
 
-      if (!response.ok) {
-        throw new Error(`Failed to update profile: ${response.status}`);
-      }
-      localStorage.setItem("firstName", firstNameConst || "");
-      localStorage.setItem("lastName", lastNameConst || "");
-      localStorage.setItem("about", aboutConst || "");
-      localStorage.setItem("location", locationConst || "");
-
+      console.log("Status:", response.status);
+      console.log("Content-Type:", contentType);
+      console.log("Response text:", text);
+      localStorage.setItem("firstName", updatedData.firstName);
+      localStorage.setItem("lastName", updatedData.lastName);
+      localStorage.setItem("about", updatedData.about);
+      localStorage.setItem("location", updatedData.location);
       setSuccess(true);
     } catch (err) {
       setError((err as Error).message);

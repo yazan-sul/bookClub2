@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useRouter } from "next/router";
 import SignupForm from "@/components/signupForm";
 import FormButton from "@/components/formButton";
+import { fetchUserProfile } from "@/utils/userData";
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -28,8 +29,8 @@ export default function Signup() {
       } else {
         const data = await res.json();
 
-        const profile = await fetch(`/api/profile?user_id=${data.user_id}`);
-        localStorage.setItem("user_id", data.user_id);
+        const profile = fetchUserProfile(username);
+
         router.push("/");
       }
     } catch (error) {
@@ -50,7 +51,7 @@ export default function Signup() {
               usernameRef={usernameRef}
               passwordRef={passwordRef}
             />
-            <FormButton value="Sign up"/>
+            <FormButton value="Sign up" />
           </form>
         </div>
       </div>
