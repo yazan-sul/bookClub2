@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { isLoggedIn } from "@/utils/auth";
 import Link from "next/link";
 import UserMenu from "./userMenu";
-
+import SearchBar from "./searchBar";
 
 export default function HeaderBar() {
   const [isLogged, setIsLogged] = useState<boolean | null>(null);
+  const [query, setQuery] = useState("");
   useEffect(() => {
     setIsLogged(isLoggedIn());
   }, []);
@@ -21,18 +22,8 @@ export default function HeaderBar() {
           Paprback
         </a>
       </div>
-      <div
-        className="flex items-center justify-center space-x-2 border rounded-md w-full max-w-4xl px-3 py-2 
-                    bg-white hover:border-slate-300 
-                    focus-within:border-blue-500 focus-within:ring focus-within:ring-blue-100"
-      >
-        <div>🔍</div>
-        <input
-          className="w-full bg-transparent placeholder:text-slate-400 focus:outline-none"
-          type="text"
-          placeholder="Search for a book..."
-        />
-      </div>
+      <SearchBar query={query} setQuery={setQuery} />
+
       {isLogged ? (
         <UserMenu />
       ) : (
