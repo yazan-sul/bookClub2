@@ -5,11 +5,13 @@ import SigninForm from "@/components/signinForm";
 import FormButton from "@/components/formButton";
 import Spinner from "@/components/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Signin() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,6 +33,7 @@ export default function Signin() {
       } else {
         const data = await res.json();
         SuccessToast("login success!!");
+        login(data.user_id, data.username);
 
         router.push("/");
       }

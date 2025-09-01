@@ -1,9 +1,11 @@
 import { isLoggedIn } from "@/utils/auth";
 
 import { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 
-export default function WelcomeMessage({ username }: { username: string }) {
+export default function WelcomeMessage() {
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const { username } = useAuth();
 
   useEffect(() => {
     setLoggedIn(() => isLoggedIn());

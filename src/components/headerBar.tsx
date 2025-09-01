@@ -3,28 +3,22 @@ import { isLoggedIn } from "@/utils/auth";
 import Link from "next/link";
 import UserMenu from "./userMenu";
 import SearchBar from "./searchBar";
+import { useAuth } from "@/context/AuthContext";
 
 export default function HeaderBar() {
-  const [isLogged, setIsLogged] = useState<boolean | null>(null);
+  const { isLoggedIn } = useAuth();
   const [query, setQuery] = useState("");
-  useEffect(() => {
-    setIsLogged(isLoggedIn());
-  }, []);
-
-  if (isLogged === null) {
-    return null;
-  }
 
   return (
     <div className="p-8 text-center items-center justify-center flex bg-white  w-full space-x-12 border-t-4 border-t-indigo-500">
       <div>
-        <a className="font-bold text-xl hover:underline" href="/">
+        <Link className="font-bold text-xl hover:underline" href="/">
           Paprback
-        </a>
+        </Link>
       </div>
       <SearchBar query={query} setQuery={setQuery} />
 
-      {isLogged ? (
+      {isLoggedIn ? (
         <UserMenu />
       ) : (
         <div className="flex gap-6 pl-6">

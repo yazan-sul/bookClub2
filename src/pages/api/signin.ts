@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import cookie from "cookie";
 import { serialize } from "cookie";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

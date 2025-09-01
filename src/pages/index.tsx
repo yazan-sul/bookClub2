@@ -30,7 +30,7 @@ export default function Home({
     <div className="bg-slate-100 min-h-screen py-8 px-4">
       {currentlyReading.length > 0 || wantToRead.length > 0 ? (
         <div className="max-w-screen-xl mx-auto space-y-20">
-          <WelcomeMessage username={username} />
+          <WelcomeMessage />
           <div className="flex flex-col md:flex-row gap-12">
             {currentlyReading.length > 0 && (
               <div className="md:w-1/4">
@@ -47,7 +47,7 @@ export default function Home({
         </div>
       ) : (
         <div className="flex flex-col max-w-screen-xl mx-auto space-y-20 items-center justify-center">
-          <WelcomeMessage username={username} />
+          <WelcomeMessage />
           <div className="max-w-screen-xl mx-auto space-y-20">
             <BooksSection books={nytTopTenBooks} />
           </div>

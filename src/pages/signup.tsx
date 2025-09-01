@@ -6,6 +6,7 @@ import FormButton from "@/components/formButton";
 import { fetchUserProfileClient } from "@/utils/userData";
 import Spinner from "@/components/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -13,6 +14,8 @@ export default function Signup() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
@@ -35,6 +38,8 @@ export default function Signup() {
 
         const profile = fetchUserProfileClient(username);
         SuccessToast("Signup success!!");
+        login(data.user_id, data.username);
+
         router.push("/");
       }
     } catch (error) {
