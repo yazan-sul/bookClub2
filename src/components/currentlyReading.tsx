@@ -34,34 +34,17 @@ export default function CurrentlyReading({ books }: { books: Book[] }) {
     <div>
       <h2 className="font-bold text-3xl mb-2">Currently Reading</h2>
       <div className="flex gap-6 flex-wrap">
-        {books.map((book) => {
-          const bookData: Book = {
-            volume_id: book.volume_id,
-            title: book.title,
-            subtitle: book.subtitle,
-            authors: book.authors?.length ? book.authors : ["Unknown"],
-            desc: book.desc || "",
-            ratings: book.ratings || {},
-            img: book.img,
-            detail: book.detail || { pubDate: "", pages: 0, lang: "" },
-            shelf: book.shelf || "",
-            start_time: book.start_time || "",
-            end_time: book.end_time || "",
-          };
-          return (
-            <div key={book.volume_id} className="w-64">
-              <div className="bg-white space-y-2 text-center ">
-                <BookCard book={bookData} />
-                <button
-                  onClick={() => handleShelfChange("want_to_read")}
-                  className="text-lg w-full font-semibold bg-slate-50  text-slate-900 py-2 rounded-full hover:bg-slate-100 transition"
-                >
-                  Mark as completed
-                </button>
-              </div>
-            </div>
-          );
-        })}
+        <div key={book.volume_id} className="w-64">
+          <div className="bg-white space-y-2 text-center ">
+            <BookCard book={book} />
+            <button
+              onClick={() => handleShelfChange("previously_read")}
+              className="text-lg w-full font-semibold bg-slate-50  text-slate-900 py-2 rounded-full hover:bg-slate-100 transition"
+            >
+              Mark as completed
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

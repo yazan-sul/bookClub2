@@ -28,7 +28,7 @@ export default function Home({
 }: HomeProps) {
   return (
     <div className="bg-slate-100 min-h-screen py-8 px-4">
-      {currentlyReading.length > 0 && wantToRead.length > 0 ? (
+      {currentlyReading.length > 0 || wantToRead.length > 0 ? (
         <div className="max-w-screen-xl mx-auto space-y-20">
           <WelcomeMessage username={username} />
           <div className="flex flex-col md:flex-row gap-12">
