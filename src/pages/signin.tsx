@@ -1,16 +1,21 @@
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import SigninForm from "@/components/signinForm";
 import FormButton from "@/components/formButton";
+import Spinner from "@/components/spinner";
+import { ErrorToast, SuccessToast } from "@/utils/toast";
 
 export default function Signin() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
     try {
@@ -25,11 +30,14 @@ export default function Signin() {
         throw Error("Failed to login");
       } else {
         const data = await res.json();
+        SuccessToast("login success!!");
 
         router.push("/");
       }
     } catch (error) {
-      console.error("Signup error:", error);
+      ErrorToast("failed to sign in!");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -41,7 +49,7 @@ export default function Signin() {
         <div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <SigninForm usernameRef={usernameRef} passwordRef={passwordRef} />
-            <FormButton value="Sign in" />
+            {loading ? <Spinner /> : <FormButton value="Sign in" />}
           </form>
         </div>
       </div>

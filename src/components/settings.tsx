@@ -54,7 +54,6 @@ export default function Settings({ user }: { user: User }) {
           body: JSON.stringify(updatedData),
         }
       );
-      const contentType = response.headers.get("content-type");
 
       const text = await response.text();
 

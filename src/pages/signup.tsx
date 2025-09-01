@@ -1,18 +1,22 @@
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import SignupForm from "@/components/signupForm";
 import FormButton from "@/components/formButton";
 import { fetchUserProfile } from "@/utils/userData";
+import Spinner from "@/components/spinner";
+import { ErrorToast, SuccessToast } from "@/utils/toast";
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     const email = emailRef.current?.value || "";
     const username = usernameRef.current?.value || "";
     const password = passwordRef.current?.value || "";
@@ -30,11 +34,13 @@ export default function Signup() {
         const data = await res.json();
 
         const profile = fetchUserProfile(username);
-
+        SuccessToast("Signup success!!");
         router.push("/");
       }
     } catch (error) {
-      console.error("Signup error:", error);
+      ErrorToast("failed to sign up!");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -51,7 +57,7 @@ export default function Signup() {
               usernameRef={usernameRef}
               passwordRef={passwordRef}
             />
-            <FormButton value="Sign up" />
+            {loading ? <Spinner /> : <FormButton value="Sign up" />}
           </form>
         </div>
       </div>
