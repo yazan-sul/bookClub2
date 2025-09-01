@@ -2,13 +2,14 @@
 import { Book } from "@/components/bookCard";
 import BooksContainerProfile from "@/components/booksContainerProfile";
 import UserProfileCard, { User } from "@/components/profileCard";
-import { fetchUserProfile, mapBookData } from "@/utils/userData";
+import { fetchUserProfile, fetchUserShelves } from "@/utils/userData";
 import { GetServerSideProps } from "next";
 
 interface UserProfileProps {
   profileData: User;
   username: string;
 }
+
 type BooksProps = {
   currentlyReading: Book[];
   wantToRead: Book[];
@@ -28,15 +29,21 @@ export default function UserProfile({
       <div className="space-y-4">
         <BooksContainerProfile
           title="Currently Reading"
+          shelf="currently_reading"
+          username={username}
           subtitle="A list of books that you're reading at the moment"
           books={currentlyReading}
         />
         <BooksContainerProfile
+          shelf="want_to_read"
+          username={username}
           title="To Read"
           subtitle="Some books you have saved to read for later"
           books={wantToRead}
         />
         <BooksContainerProfile
+          shelf="previously_read"
+          username={username}
           title="Finished"
           subtitle="Books you've already read. Keep going!"
           books={previously_read}
@@ -47,31 +54,21 @@ export default function UserProfile({
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username } = context.params!;
+  const fetchedProfile = await fetchUserProfile(username as string, context);
 
-  const fetchedProfile = await fetchUserProfile(username as string);
-
-  if (!fetchedProfile || !fetchedProfile.profileData) {
+  if (!fetchedProfile?.profileData) {
     return { notFound: true };
   }
 
-  const { profileData } = fetchedProfile;
-
-  const res = await fetch(
-    `${process.env.PUBLIC_API}/98aac522330f4c29882dcfd3736822ad/shelves`
-  );
-
-  const booksData = await res.json();
-  const currentlyReading = booksData.currently_reading.books.map(mapBookData);
-  const wantToRead = booksData.want_to_read.books.map(mapBookData);
-  const previously_read = booksData.previously_read.books.map(mapBookData);
+  const shelves = await fetchUserShelves(fetchedProfile.profileData.user_id);
 
   return {
     props: {
-      profileData,
+      profileData: fetchedProfile.profileData,
       username,
-      currentlyReading,
-      wantToRead,
-      previously_read,
+      currentlyReading: shelves.currentlyReading,
+      wantToRead: shelves.wantToRead,
+      previously_read: shelves.previously_read,
     },
   };
 };

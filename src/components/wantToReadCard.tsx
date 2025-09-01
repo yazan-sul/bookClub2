@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { parse } from "cookie";
+import { useShelfChange } from "@/hooks/useShelfChange";
+import Spinner from "./spinner";
 export interface Book {
   volume_id: string;
   title: string;
@@ -18,6 +22,31 @@ export interface Book {
 }
 
 export default function WantToReadCard({ book }: { book: Book }) {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>();
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const cookies = parse(document.cookie || "");
+      setUserId(cookies.user_id || null);
+
+      setAccessToken(cookies.access_token || null);
+    }
+  }, []);
+  const { handleShelfChange, loadingShelf, currentShelf } = useShelfChange({
+    userId,
+    accessToken: accessToken ?? undefined,
+    volumeData: {
+      id: book.volume_id,
+      title: book.title,
+      subtitle: book.subtitle,
+      authors: book.authors,
+      desc: book.desc,
+      detail: book.detail,
+      img: book.img,
+      ratings: book.ratings,
+    },
+  });
   return (
     <div className="h-40 w-full bg-white rounded-xl shadow-md p-2 flex flex-col text-start items-start">
       <div className="flex flex-col mt-3  space-y-1 text-start">
@@ -32,8 +61,10 @@ export default function WantToReadCard({ book }: { book: Book }) {
       <button
         type="button"
         className="text-gray-500 text-base hover:underline transition"
+        onClick={() => handleShelfChange("currently_reading")}
+        disabled={loadingShelf === "currently_reading"}
       >
-        Mark as reading
+        {loadingShelf === "currently_reading" ? <Spinner /> : "Mark as reading"}
       </button>
     </div>
   );

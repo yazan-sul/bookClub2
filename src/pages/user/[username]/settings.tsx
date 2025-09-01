@@ -13,7 +13,7 @@ export default function SettingsPage({ profileData }: SettingsPageProps) {
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username } = context.params!;
-  const data = await fetchUserProfile(username as string);
+  const data = await fetchUserProfile(username as string, context);
   if (!data) {
     return { notFound: true };
   }
