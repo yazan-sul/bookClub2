@@ -53,9 +53,9 @@ export default function Settings({ user }: { user: User }) {
       );
 
       const text = await response.text();
-      document.cookie = `firstName=${updatedData.firstName}; path=/`;
-      document.cookie = `lastName=${updatedData.lastName}; path=/`;
-      document.cookie = `about=${updatedData.about}; path=/`;
+      document.cookie = `first_name=${updatedData.firstName}; path=/`;
+      document.cookie = `last_name=${updatedData.lastName}; path=/`;
+      document.cookie = `bio=${updatedData.about}; path=/`;
       document.cookie = `location=${updatedData.location}; path=/`;
 
       SuccessToast("Updated!");
