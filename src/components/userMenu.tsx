@@ -1,10 +1,19 @@
 import LogoutButton from "@/pages/logout";
 import Link from "next/link";
-import React, { useState } from "react";
+import { parse } from "cookie";
+import React, { useEffect, useState } from "react";
 
 const UserMenu = () => {
   const [open, setOpen] = useState(false);
-  const username = localStorage.getItem("username");
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const cookies = parse(document.cookie || "");
+    console.log("cookie name : ", cookies.username);
+    setUsername(cookies.username || null);
+  }, []);
   const toggleMenu = () => setOpen((prev) => !prev);
   const closeMenu = () => setOpen(false);
   return (

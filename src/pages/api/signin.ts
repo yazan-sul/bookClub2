@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             const user_id = data?.user_id;
             const access_token = data?.access_token;
+            const username = data?.username;
             res.setHeader("Set-Cookie", [
                 serialize("user_id", user_id, {
                     httpOnly: false,
@@ -33,6 +34,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     sameSite: "lax",
                     path: "/",
                 }),
+                serialize("username", username, {
+                    httpOnly: false,
+                    secure: process.env.NODE_ENV === "production",
+                    maxAge: 60 * 60 * 24 * 7,
+                    sameSite: "lax",
+                    path: "/",
+                })
             ]);
 
             res.status(response.status).json(data);

@@ -4,6 +4,7 @@ import { useRef, useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
 import Spinner from "./spinner";
 import { parse } from "cookie";
+import { ErrorToast, SuccessToast } from "@/utils/toast";
 
 export default function Settings({ user }: { user: User }) {
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -12,11 +13,10 @@ export default function Settings({ user }: { user: User }) {
   const locationRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (loading) return;
     const target = e.target as typeof e.target & {
       firstName: { value: string };
       lastName: { value: string };
@@ -34,13 +34,10 @@ export default function Settings({ user }: { user: User }) {
     const access_token = cookies.access_token;
 
     if (!access_token) {
-      setError("You are not authenticated.");
       return;
     }
 
     setLoading(true);
-    setError(null);
-    setSuccess(false);
 
     try {
       const response = await fetch(
@@ -54,17 +51,16 @@ export default function Settings({ user }: { user: User }) {
           body: JSON.stringify(updatedData),
         }
       );
-      const contentType = response.headers.get("content-type");
 
       const text = await response.text();
+      document.cookie = `first_name=${updatedData.firstName}; path=/`;
+      document.cookie = `last_name=${updatedData.lastName}; path=/`;
+      document.cookie = `bio=${updatedData.about}; path=/`;
+      document.cookie = `location=${updatedData.location}; path=/`;
 
-      localStorage.setItem("firstName", updatedData.firstName);
-      localStorage.setItem("lastName", updatedData.lastName);
-      localStorage.setItem("about", updatedData.about);
-      localStorage.setItem("location", updatedData.location);
-      setSuccess(true);
+      SuccessToast("Updated!");
     } catch (err) {
-      setError((err as Error).message);
+      ErrorToast("Failed to update!");
     } finally {
       setLoading(false);
     }
@@ -91,10 +87,6 @@ export default function Settings({ user }: { user: User }) {
               <Spinner />
             </div>
           )}
-          {success && (
-            <p className="text-green-600 mt-2">Profile updated successfully!</p>
-          )}
-          {error && <p className="text-red-600 mt-2">Error: {error}</p>}
         </form>
       </div>
     </div>
