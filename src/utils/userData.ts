@@ -1,20 +1,30 @@
 import { Book } from "@/components/bookCard";
 import { User } from "@/components/profileCard";
+import { parse } from "cookie";
+import { GetServerSidePropsContext } from "next";
 
-export const fetchUserProfile = async (username: string) => {
+type ShelvesData = {
+  currently_reading?: { books: any[] };
+  want_to_read?: { books: any[] };
+  previously_read?: { books: any[] };
+};
+
+export const fetchUserProfileClient = async (username: string) => {
   try {
-    const userRes = await fetch(
-      `${process.env.PUBLIC_API}/user/${username}`
-    );
+    if (typeof window === "undefined") throw new Error("Not in browser");
 
-    if (!userRes.ok) {
-      return null;
-    }
-    const user: User = await userRes.json();
+    const cookies = parse(document.cookie || "");
+    const user_id = cookies.user_id;
+    const access_token = cookies.access_token;
+    const username = cookies.username;
 
-    const profileRes = await fetch(
-      `${process.env.PUBLIC_API}/${user.user_id}/profile`
-    );
+    if (!user_id) throw new Error("User ID not found in cookies");
+
+    const profileRes = await fetch(`${process.env.NEXT_PUBLIC_API}/${user_id}/profile`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
 
     if (!profileRes.ok) {
       throw new Error("Failed to fetch profile data");
@@ -27,14 +37,73 @@ export const fetchUserProfile = async (username: string) => {
     return null;
   }
 };
-type ShelvesData = {
-  currently_reading?: { books: any[] };
-  want_to_read?: { books: any[] };
-  previously_read?: { books: any[] };
-};
 
+export const fetchUserProfile = async (username: string, context: GetServerSidePropsContext
+) => {
+  try {
+    const cookies = parse(context.req.headers.cookie || "");
+    const user_id = cookies.user_id;
+    const access_token = cookies.access_token;
+    const username = cookies.username;
+
+    if (!user_id) throw new Error("User ID not found in cookies");
+
+
+    const profileRes = await fetch(`${process.env.PUBLIC_API}/${user_id}/profile`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    if (!profileRes.ok) {
+      throw new Error("Failed to fetch profile data");
+    }
+
+    const profileData: User = await profileRes.json();
+
+    return { profileData, username };
+  } catch (error) {
+    return null;
+  }
+};
 export async function fetchUserShelves(user_id: string) {
-  const res = await fetch(`${process.env.PUBLIC_API}/${user_id}/shelves`);
+  try {
+    const res = await fetch(`${process.env.PUBLIC_API}/${user_id}/shelves`);
+    if (!res.ok) {
+
+      return {
+        currentlyReading: [],
+        wantToRead: [],
+        previously_read: [],
+      };
+    }
+    const shelvesData: ShelvesData = await res.json();
+
+    return {
+      currentlyReading:
+        shelvesData.currently_reading?.books?.map(mapBookData) || [],
+      wantToRead: shelvesData.want_to_read?.books?.map(mapBookData) || [],
+      previously_read:
+        shelvesData.previously_read?.books?.map(mapBookData) || [],
+    };
+  } catch (err) {
+    return {
+      currentlyReading: [],
+      wantToRead: [],
+      previously_read: [],
+    };
+  }
+
+}
+
+export async function fetchUserShelvesClinet(user_id: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_API;
+
+  if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_API environment variable is not defined");
+  }
+
+  const res = await fetch(`${baseUrl}/${user_id}/shelves`);
+
   if (!res.ok) {
     throw new Error(`Failed to fetch shelves for user ${user_id}`);
   }
@@ -47,9 +116,11 @@ export async function fetchUserShelves(user_id: string) {
     previously_read:
       shelvesData.previously_read?.books?.map(mapBookData) || [],
   };
-} export async function fetchNytTopTen(): Promise<Book[]> {
+}
+export async function fetchNytTopTen(): Promise<Book[]> {
   try {
-    const res = await fetch("https://bookclub-backend.nn.r.appspot.com/api/v1/nyt-top-ten");
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/nyt-top-ten`);
+
     if (!res.ok) {
       return [];
     }
@@ -92,7 +163,6 @@ export async function fetchUserShelves(user_id: string) {
   }
 }
 
-
 export function mapBookData(book: any): Book {
   return {
     volume_id: book.volume_id,
@@ -101,13 +171,14 @@ export function mapBookData(book: any): Book {
     authors: book.authors?.length ? book.authors : ["Unknown"],
     desc: book.desc || "",
     ratings: book.ratings || {},
-    img: book.img,
+    img: book.img || book.imageLinks?.thumbnail || "",
     detail: book.detail || { pubDate: "", pages: 0, lang: "" },
     shelf: book.shelf || "",
     start_time: book.start_time || "",
     end_time: book.end_time || "",
   };
 }
+
 export function mapGoogleBookToLocalBook(googleBook: any): Book {
   const volumeInfo = googleBook.volumeInfo || {};
 

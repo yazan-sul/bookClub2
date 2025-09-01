@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import SignupForm from "@/components/signupForm";
 import FormButton from "@/components/formButton";
-import { fetchUserProfile } from "@/utils/userData";
+import { fetchUserProfileClient } from "@/utils/userData";
 import Spinner from "@/components/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
 
@@ -33,7 +33,7 @@ export default function Signup() {
       } else {
         const data = await res.json();
 
-        const profile = fetchUserProfile(username);
+        const profile = fetchUserProfileClient(username);
         SuccessToast("Signup success!!");
         router.push("/");
       }

@@ -1,15 +1,12 @@
 import { isLoggedIn } from "@/utils/auth";
+
 import { useState, useEffect } from "react";
 
-export default function WelcomeMessage() {
+export default function WelcomeMessage({ username }: { username: string }) {
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
     setLoggedIn(() => isLoggedIn());
-
-    const storedUsername = localStorage.getItem("username");
-    setUsername(storedUsername);
   }, []);
   if (loggedIn === null) {
     return (
