@@ -25,10 +25,7 @@ export default function Signin() {
         throw Error("Failed to login");
       } else {
         const data = await res.json();
-        localStorage.setItem("user_id", data.user_id);
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("token_expiry", data.expiry);
-        localStorage.setItem("username", data.username);
+
         router.push("/");
       }
     } catch (error) {

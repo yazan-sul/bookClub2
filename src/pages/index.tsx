@@ -3,24 +3,27 @@ import WelcomeMessage from "../components/welcomeMessage";
 import CurrentlyReading from "../components/currentlyReading";
 import WantToRead from "../components/wantToRead";
 import BooksSection from "../components/booksSection";
-import { mapBookData } from "@/utils/userData";
+import {
+  fetchUserShelves,
+  mapBookData,
+  fetchNytTopTen,
+} from "@/utils/userData";
+import { parse } from "cookie";
+import { GetServerSideProps } from "next";
 
 type HomeProps = {
   currentlyReading: Book[];
   wantToRead: Book[];
   previously_read: Book[];
+  nytTopTenBooks: Book[];
 };
 
 export default function Home({
   currentlyReading,
   wantToRead,
   previously_read,
+  nytTopTenBooks,
 }: HomeProps) {
-  const allBooks = {
-    currentlyReading,
-    wantToRead,
-    previously_read,
-  };
   return (
     <div className="bg-slate-100 min-h-screen py-8 px-4">
       <div className="max-w-screen-xl mx-auto space-y-20">
@@ -35,25 +38,48 @@ export default function Home({
           </div>
         </div>
 
-        <BooksSection books={allBooks} />
+        <BooksSection books={nytTopTenBooks} />
       </div>
     </div>
   );
 }
-export async function getServerSideProps() {
-  const res = await fetch(
-    `${process.env.PUBLIC_API}/98aac522330f4c29882dcfd3736822ad/shelves`
-  );
-  const data = await res.json();
-  const currentlyReading = data.currently_reading.books.map(mapBookData);
-  const wantToRead = data.want_to_read.books.map(mapBookData);
-  const previously_read = data.previously_read.books.map(mapBookData);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = parse(context.req.headers.cookie || "");
+  const user_id = cookies.user_id;
 
-  return {
-    props: {
-      currentlyReading,
-      wantToRead,
-      previously_read,
-    },
-  };
-}
+  if (!user_id) {
+    return {
+      props: {
+        currentlyReading: [],
+        wantToRead: [],
+        previously_read: [],
+      },
+    };
+  }
+
+  try {
+    const shelves = await fetchUserShelves(user_id);
+
+    const currentlyReading = (shelves.currentlyReading || []).map(mapBookData);
+    const wantToRead = (shelves.wantToRead || []).map(mapBookData);
+    const previously_read = (shelves.previously_read || []).map(mapBookData);
+
+    const nytTopTenBooks = await fetchNytTopTen();
+    return {
+      props: {
+        currentlyReading,
+        wantToRead,
+        previously_read,
+        nytTopTenBooks,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        currentlyReading: [],
+        wantToRead: [],
+        previously_read: [],
+      },
+    };
+  }
+};

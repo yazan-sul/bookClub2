@@ -7,11 +7,12 @@ interface LogoutButtonProps {
 export default function LogoutButton({ onLogout }: LogoutButtonProps) {
   const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("user_id");
+    await fetch("/api/logout", { method: "POST" });
+
     if (onLogout) onLogout();
     router.push("/");
-    router.reload();
   };
 
   return (
