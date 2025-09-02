@@ -1,21 +1,5 @@
+import { Book } from "@/type/types";
 import Link from "next/link";
-export interface Book {
-  volume_id: string;
-  title: string;
-  subtitle?: string;
-  authors: string[];
-  desc: string;
-  ratings: Record<string, unknown>;
-  img: string;
-  detail: {
-    pubDate: string;
-    pages: number;
-    lang: string;
-  };
-  shelf: string;
-  start_time: string;
-  end_time: string;
-}
 
 type CardProps = {
   book: Book;

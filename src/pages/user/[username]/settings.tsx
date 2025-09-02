@@ -1,4 +1,4 @@
-import { User } from "@/components/profileCard";
+import { User } from "@/type/types";
 import Settings from "@/components/settings";
 import { fetchUserProfile } from "@/utils/userData";
 

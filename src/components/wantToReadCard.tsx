@@ -3,24 +3,7 @@ import { useState, useEffect } from "react";
 import { parse } from "cookie";
 import { useShelfChange } from "@/hooks/useShelfChange";
 import Spinner from "./spinner";
-export interface Book {
-  volume_id: string;
-  title: string;
-  subtitle?: string;
-  authors: string[];
-  desc: string;
-  ratings: Record<string, unknown>;
-  img: string;
-  detail: {
-    pubDate: string;
-    pages: number;
-    lang: string;
-  };
-  shelf: string;
-  start_time: string;
-  end_time: string;
-}
-
+import { Book } from "@/type/types";
 export default function WantToReadCard({ book }: { book: Book }) {
   const [userId, setUserId] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>();

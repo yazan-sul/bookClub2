@@ -1,5 +1,5 @@
 import FormButton from "@/components/formButton";
-import { User } from "@/components/profileCard";
+import { User } from "@/type/types";
 import { useRef, useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
 import Spinner from "./spinner";

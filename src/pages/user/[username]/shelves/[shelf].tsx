@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { Book } from "@/components/bookCard";
+import { Book } from "@/type/types";
 import BooksContainerProfile from "@/components/booksContainerProfile";
 import { mapBookData } from "@/utils/userData";
 import { parse } from "cookie";

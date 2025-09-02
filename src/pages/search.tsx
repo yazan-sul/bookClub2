@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Book } from "@/components/bookCard";
+import { Book } from "@/type/types";
 import BooksSection from "@/components/booksSection";
 import Spinner from "@/components/spinner";
 

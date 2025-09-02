@@ -1,5 +1,5 @@
-import { Book } from "@/components/bookCard";
-import { User } from "@/components/profileCard";
+import { Book } from "@/type/types";
+import { User } from "@/type/types";
 import { parse } from "cookie";
 import { GetServerSidePropsContext } from "next";
 

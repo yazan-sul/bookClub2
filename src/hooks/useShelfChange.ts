@@ -1,23 +1,7 @@
 import { useState } from "react";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
+import { VolumeData } from "@/type/types";
 
-interface VolumeData {
-    id: string;
-    title: string;
-    subtitle?: string;
-    authors: string[];
-    desc?: string;
-    detail?: {
-        pubDate?: string;
-        pages?: number;
-        lang?: string;
-    };
-    img?: string;
-    ratings?: {
-        count?: number;
-        avg?: number;
-    };
-}
 
 interface UseShelfChangeParams {
     userId: string | null;

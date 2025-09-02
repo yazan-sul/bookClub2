@@ -1,4 +1,4 @@
-import { Book } from "../components/bookCard";
+import { Book } from "../type/types";
 import WelcomeMessage from "../components/welcomeMessage";
 import CurrentlyReading from "../components/currentlyReading";
 import WantToRead from "../components/wantToRead";
