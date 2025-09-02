@@ -18,7 +18,7 @@ const SettingsForm: React.FC<UserFormFieldsProps> = ({
   locationRef,
 }) => {
   return (
-    <>
+    <div>
       <InputField
         label="First name"
         name="firstName"
@@ -47,7 +47,7 @@ const SettingsForm: React.FC<UserFormFieldsProps> = ({
         defaultValue={user.location ?? ""}
         type="text"
       />
-    </>
+    </div>
   );
 };
 

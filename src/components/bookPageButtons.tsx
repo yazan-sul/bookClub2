@@ -1,48 +1,26 @@
 import { useState, useEffect } from "react";
 import { parse } from "cookie";
-import { fetchUserShelves, fetchUserShelvesClinet } from "@/utils/userData";
-import { SuccessToast, ErrorToast } from "@/utils/toast";
+import { fetchUserShelvesClinet } from "@/utils/userData";
+import { ErrorToast } from "@/utils/toast";
 import { useShelfChange } from "@/hooks/useShelfChange";
 import { Book } from "./bookCard";
-
-type VolumeData = {
-  id: string;
-  title: string;
-  subtitle?: string;
-  authors: string[];
-  desc?: string;
-  detail?: {
-    pubDate?: string;
-    pages?: number;
-    lang?: string;
-  };
-  img?: string;
-  ratings?: {
-    count?: number;
-    avg?: number;
-  };
-};
+import { useAuth } from "@/context/AuthContext";
+import { VolumeData } from "@/type/types";
 
 type BookPageButtonsProps = {
   volumeData: VolumeData;
 };
 
 export default function BookPageButtons({ volumeData }: BookPageButtonsProps) {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
+  const { userId } = useAuth();
   const { loadingShelf, currentShelf, handleShelfChange, setCurrentShelf } =
     useShelfChange({
       userId: userId,
-      accessToken: accessToken ?? undefined,
       volumeData,
     });
-
   useEffect(() => {
     if (typeof document !== "undefined") {
       const cookies = parse(document.cookie || "");
-      setUserId(cookies.user_id || null);
-
-      setAccessToken(cookies.access_token || null);
     }
   }, []);
 

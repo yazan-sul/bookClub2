@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import { Book } from "@/components/bookCard";
 import BooksContainerProfile from "@/components/booksContainerProfile";
 import { mapBookData } from "@/utils/userData";
-import CurrentlyReading from "@/components/currentlyReading";
 import { parse } from "cookie";
 
 interface ShelfPageProps {

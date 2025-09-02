@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { parse } from "cookie";
+
 type AuthContextType = {
   isLoggedIn: boolean;
   username: string | null;
@@ -7,11 +8,20 @@ type AuthContextType = {
   login: (userId: string, username: string) => void;
   logout: () => void;
 };
+type AuthProviderProps = {
+  children: React.ReactNode;
+  initialUserId?: string | null;
+  initialUsername?: string | null;
+};
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userId, setUserId] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
+export const AuthProvider = ({
+  children,
+  initialUserId = null,
+  initialUsername = null,
+}: AuthProviderProps) => {
+  const [userId, setUserId] = useState<string | null>(initialUserId);
+  const [username, setUsername] = useState<string | null>(initialUsername);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

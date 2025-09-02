@@ -67,7 +67,7 @@ export default function Settings({ user }: { user: User }) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full space-y-8">
+    <div className="flex flex-col items-center w-full space-y-8 mb-20">
       <div className="text-center mt-12">
         <h2 className="text-2xl font-bold">Paprback</h2>
       </div>

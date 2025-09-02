@@ -13,7 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
             path: "/",
         }),
         serialize("access_token", "", {
-            httpOnly: false,
+            httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             maxAge: -1,
             sameSite: "lax",
