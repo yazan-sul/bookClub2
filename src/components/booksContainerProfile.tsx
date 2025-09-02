@@ -1,6 +1,7 @@
 import React from "react";
-import BookCard, { Book } from "./bookCard";
+import BookCard from "./bookCard";
 import Link from "next/link";
+import { Book } from "@/type/types";
 
 interface BooksSectionProps {
   username: string;

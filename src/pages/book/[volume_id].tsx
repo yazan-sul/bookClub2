@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { Book } from "../../components/bookCard";
+import { Book } from "../../type/types";
 import { notFound } from "next/navigation";
 import { mapGoogleBookToLocalBook } from "@/utils/userData";
 

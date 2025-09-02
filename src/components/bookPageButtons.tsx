@@ -3,7 +3,7 @@ import { parse } from "cookie";
 import { fetchUserShelvesClinet } from "@/utils/userData";
 import { ErrorToast } from "@/utils/toast";
 import { useShelfChange } from "@/hooks/useShelfChange";
-import { Book } from "./bookCard";
+import { Book } from "../type/types";
 import { useAuth } from "@/context/AuthContext";
 import { VolumeData } from "@/type/types";
 

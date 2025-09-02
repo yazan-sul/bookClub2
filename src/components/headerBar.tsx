@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { isLoggedIn } from "@/utils/auth";
 import Link from "next/link";
 import UserMenu from "./userMenu";
 import SearchBar from "./searchBar";

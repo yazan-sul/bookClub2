@@ -1,4 +1,3 @@
-// pages/user/[username].tsx
 import { Book, User } from "@/type/types";
 import BooksContainerProfile from "@/components/booksContainerProfile";
 import UserProfileCard from "@/components/profileCard";

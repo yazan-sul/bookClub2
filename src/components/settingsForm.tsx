@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "./profileCard";
+import { User } from "../type/types";
 import InputField from "./InputField";
 
 interface UserFormFieldsProps {
