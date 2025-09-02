@@ -23,7 +23,7 @@ export default function BooksContainerProfile({
       <div className="flex justify-between items-start mb-4">
         <div className="space-y-2">
           <h2 className="text-base font-light text-gray-500 uppercase">
-            {username}
+            {title}
           </h2>
           <p className=" text-slate-900 text-basE">{subtitle}</p>
         </div>
