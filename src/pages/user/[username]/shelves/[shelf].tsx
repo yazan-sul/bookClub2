@@ -59,7 +59,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = parse(cookieHeader);
 
   const userId = cookies.user_id || null;
-  console.log(userId);
   const res = await fetch(`${process.env.PUBLIC_API}/${userId}/shelves`);
 
   const booksData = await res.json();

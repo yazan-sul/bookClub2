@@ -4,15 +4,14 @@ import { parse } from "cookie";
 import { useShelfChange } from "@/hooks/useShelfChange";
 import Spinner from "./spinner";
 import { Book } from "@/type/types";
+import { useAuth } from "@/context/AuthContext";
 export default function WantToReadCard({ book }: { book: Book }) {
-  const [userId, setUserId] = useState<string | null>(null);
+  const { userId } = useAuth();
   const [accessToken, setAccessToken] = useState<string | null>();
 
   useEffect(() => {
     if (typeof document !== "undefined") {
       const cookies = parse(document.cookie || "");
-      setUserId(cookies.user_id || null);
-
       setAccessToken(cookies.access_token || null);
     }
   }, []);

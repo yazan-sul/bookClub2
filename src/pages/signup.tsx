@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import SignupForm from "@/components/signupForm";
-import FormButton from "@/components/formButton";
+import SubmitButton from "@/components/formButton";
 import { fetchUserProfileClient } from "@/utils/userData";
 import Spinner from "@/components/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
@@ -62,7 +62,7 @@ export default function Signup() {
               usernameRef={usernameRef}
               passwordRef={passwordRef}
             />
-            {loading ? <Spinner /> : <FormButton value="Sign up" />}
+            {loading ? <Spinner /> : <SubmitButton value="Sign up" />}
           </form>
         </div>
       </div>

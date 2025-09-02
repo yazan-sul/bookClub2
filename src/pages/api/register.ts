@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         path: "/",
                     }),
                     serialize("access_token", access_token, {
-                        httpOnly: false,
+                        httpOnly: true,
                         secure: process.env.NODE_ENV === "production",
                         maxAge: 60 * 60 * 24 * 7,
                         sameSite: "lax",

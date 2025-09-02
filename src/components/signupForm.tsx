@@ -16,7 +16,7 @@ export default function SignupForm({
         name="emailAddress"
         inputRef={emailRef}
         placeHolder={"user@gmail.com"}
-        type="text"
+        type="email"
       />
       <InputField
         label="Username"

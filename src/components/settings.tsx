@@ -1,4 +1,4 @@
-import FormButton from "@/components/formButton";
+import SubmitButton from "@/components/formButton";
 import { User } from "@/type/types";
 import { useRef, useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
@@ -11,7 +11,6 @@ export default function Settings({ user }: { user: User }) {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const aboutRef = useRef<HTMLInputElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
-
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -36,7 +35,6 @@ export default function Settings({ user }: { user: User }) {
     if (!access_token) {
       return;
     }
-
     setLoading(true);
 
     try {
@@ -80,7 +78,7 @@ export default function Settings({ user }: { user: User }) {
             aboutRef={aboutRef}
             locationRef={locationRef}
           />
-          <FormButton value={loading ? "Saving..." : "Save"} />
+          <SubmitButton value={loading ? "Saving..." : "Save"} />
 
           {loading && (
             <div>
