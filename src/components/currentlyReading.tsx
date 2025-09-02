@@ -3,16 +3,15 @@ import { parse } from "cookie";
 import { useState, useEffect } from "react";
 import BookCard from "./bookCard";
 import { Book } from "../type/types";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CurrentlyReading({ books }: { books: Book[] }) {
-  const [userId, setUserId] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>();
+  const { userId } = useAuth();
 
   useEffect(() => {
     if (typeof document !== "undefined") {
       const cookies = parse(document.cookie || "");
-      setUserId(cookies.user_id || null);
-
       setAccessToken(cookies.access_token || null);
     }
   }, []);
