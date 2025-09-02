@@ -8,7 +8,7 @@ interface UseShelfChangeParams {
     volumeData: VolumeData;
 }
 
-export function useShelfChange({ userId, accessToken, volumeData }: UseShelfChangeParams) {
+export function useShelfChange({ userId, volumeData }: UseShelfChangeParams) {
     const [loadingShelf, setLoadingShelf] = useState<string | null>(null);
     const [currentShelf, setCurrentShelf] = useState<string | null>(null);
 
@@ -21,21 +21,17 @@ export function useShelfChange({ userId, accessToken, volumeData }: UseShelfChan
         setLoadingShelf(shelf);
 
         try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API}/${userId}/shelves/exclusive`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-                    },
-                    body: JSON.stringify({
-                        op: "upsert",
-                        to_shelf: shelf,
-                        volume_data: volumeData,
-                    }),
-                }
-            );
+            const response = await fetch("/api/shelfChange", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userId,
+                    shelf,
+                    volumeData,
+                }),
+            });
 
             if (!response.ok) {
                 throw new Error(`API error: ${response.status}`);

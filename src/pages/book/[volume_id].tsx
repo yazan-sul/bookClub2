@@ -1,17 +1,28 @@
 import { GetServerSideProps } from "next";
 import { Book } from "../../type/types";
 import { notFound } from "next/navigation";
-import { mapGoogleBookToLocalBook } from "@/utils/userData";
-
-import BookPageButtons from "@/components/bookPageButtons";
+import {
+  fetchUserShelvesClinet,
+  mapGoogleBookToLocalBook,
+} from "@/utils/userData";
+import BookActions from "@/components/bookActions";
 import BookPageDesc from "@/components/bookPageDesc";
+import { parse } from "cookie";
+import { ErrorToast } from "@/utils/toast";
 
 type Props = {
   book: Book | null;
+  foundShelf: string | null;
+  accessToken: string;
 };
-export default function BookDetailPage({ book }: Props) {
-  if (!book) return notFound;
-
+export default function BookDetailPage({
+  book,
+  accessToken,
+  foundShelf,
+}: Props) {
+  if (!book) {
+    return { notFound: true };
+  }
   return (
     <div className="flex flex-col items-center p-20 space-y-20 ">
       <div className="flex items-center gap-28 justify-center">
@@ -24,7 +35,9 @@ export default function BookDetailPage({ book }: Props) {
           <h1 className="font-bold text-4xl">{book.title}</h1>
           <h4 className="font-semibold">{book.subtitle}</h4>
           <p className="font-extralight">by {book.authors[0]}</p>
-          <BookPageButtons
+          <BookActions
+            accessToken={accessToken}
+            foundShelf={foundShelf && foundShelf}
             volumeData={{
               id: book.volume_id,
               title: book.title,
@@ -53,14 +66,18 @@ export default function BookDetailPage({ book }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const volume_id = context.params?.volume_id;
+  const cookies = parse(context.req.headers.cookie || "");
 
-  if (!volume_id || typeof volume_id !== "string") {
+  const volumeId = context.params?.volume_id;
+  const accessToken = cookies.access_token;
+  const userId = cookies.user_id;
+
+  if (!volumeId || typeof volumeId !== "string") {
     return { notFound: true };
   }
 
   const res = await fetch(
-    `https://www.googleapis.com/books/v1/volumes/${volume_id}`
+    `http://localhost:3000/api/book?volume_id=${volumeId}`
   );
 
   if (!res.ok) {
@@ -70,5 +87,35 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const rawBook = await res.json();
   const book = mapGoogleBookToLocalBook(rawBook);
 
-  return { props: { book } };
+  if (!userId) {
+    return {
+      props: {
+        book,
+        accessToken,
+        foundShelf: null,
+      },
+    };
+  }
+  let foundShelf: string | null = null;
+
+  try {
+    const shelves = await fetchUserShelvesClinet(userId);
+    const shelfKeys = [
+      "currentlyReading",
+      "wantToRead",
+      "previously_read",
+    ] as const;
+
+    for (const shelfKey of shelfKeys) {
+      const books = shelves[shelfKey] || [];
+      if (books.find((b: Book) => b.volume_id === book.volume_id)) {
+        foundShelf = shelfKey;
+        break;
+      }
+    }
+  } catch (e: any) {
+    ErrorToast("Error fetching shelves.");
+  }
+
+  return { props: { book, accessToken, foundShelf } };
 };
