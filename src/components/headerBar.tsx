@@ -15,8 +15,7 @@ export default function HeaderBar() {
           Paprback
         </Link>
       </div>
-      <SearchBar query={query} setQuery={setQuery} />
-
+      <SearchBar />
       {isLoggedIn ? (
         <UserMenu />
       ) : (

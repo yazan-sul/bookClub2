@@ -1,55 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { Book } from "@/type/types";
 import BooksSection from "@/components/booksSection";
 import Spinner from "@/components/spinner";
+import { GetServerSideProps } from "next";
+import { pathForServer } from "@/utils/path";
+interface SearchBooksProps {
+  initialResults: Book[];
+}
 
-export default function SearchBooks() {
-  const [searchResults, setSearchResults] = useState<Book[]>([]);
+export default function SearchBooks({ initialResults }: SearchBooksProps) {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const { q } = router.query;
 
-  useEffect(() => {
-    if (!q || typeof q !== "string") {
-      setSearchResults([]);
-      return;
-    }
-
-    const fetchBooks = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${q}`
-        );
-        const data = await response.json();
-
-        if (data.items) {
-          const books: Book[] = data.items.map(mapGoogleBookToBook);
-          setSearchResults(books);
-        } else {
-          setSearchResults([]);
-        }
-      } catch (error) {
-        setSearchResults([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBooks();
-  }, [q]);
-
   return (
     <div className="p-6">
-      {loading ? (
-        <Spinner />
-      ) : searchResults.length > 0 ? (
-        <div className="max-w-screen-2xl mx-auto ">
+      {initialResults.length > 0 ? (
+        <div className="max-w-screen-2xl mx-auto">
           <h1 className="text-2xl font-bold mb-4">Search Results for "{q}"</h1>
-
-          <BooksSection books={searchResults} />
+          <BooksSection books={initialResults} />
         </div>
       ) : (
         <p>No results found.</p>
@@ -57,6 +28,34 @@ export default function SearchBooks() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const q = context.query.q;
+
+  if (!q || typeof q !== "string") {
+    return {
+      props: {
+        initialResults: [],
+      },
+    };
+  }
+  try {
+    const response = await fetch(`${pathForServer(context)}/api/search?q=${q}`);
+    const data = await response.json();
+    const initialResults: Book[] = data.items?.map(mapGoogleBookToBook) || [];
+    return {
+      props: {
+        initialResults,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        initialResults: [],
+      },
+    };
+  }
+};
 
 export function mapGoogleBookToBook(book: any): Book {
   return {

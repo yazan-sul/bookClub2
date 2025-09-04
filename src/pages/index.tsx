@@ -10,6 +10,7 @@ import {
 } from "@/utils/userData";
 import { parse } from "cookie";
 import { GetServerSideProps } from "next";
+import { ErrorToast } from "@/utils/toast";
 
 type HomeProps = {
   currentlyReading: Book[];
@@ -56,45 +57,43 @@ export default function Home({
     </div>
   );
 }
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = parse(context.req.headers.cookie || "");
   const user_id = cookies.user_id;
-  const nytTopTenBooks = await fetchNytTopTen();
   const username = cookies.username || null;
 
-  if (!user_id) {
-    return {
-      props: {
-        currentlyReading: [],
-        wantToRead: [],
-        previously_read: [],
-        nytTopTenBooks,
-        username,
-      },
-    };
-  }
+  let nytTopTenBooks: Book[] = [];
+  let shelves = {
+    currentlyReading: [] as Book[],
+    wantToRead: [] as Book[],
+    previously_read: [] as Book[],
+  };
 
   try {
-    const shelves = await fetchUserShelves(user_id);
+    const [nytBooks, userShelves] = await Promise.all([
+      fetchNytTopTen(),
+      user_id ? fetchUserShelves(user_id) : Promise.resolve(null),
+    ]);
 
-    return {
-      props: {
-        currentlyReading: shelves.currentlyReading,
-        wantToRead: shelves.wantToRead,
-        previously_read: shelves.previously_read,
-        nytTopTenBooks,
-        username,
-      },
-    };
+    nytTopTenBooks = nytBooks;
+
+    if (userShelves) {
+      shelves = {
+        currentlyReading: userShelves.currentlyReading || [],
+        wantToRead: userShelves.wantToRead || [],
+        previously_read: userShelves.previously_read || [],
+      };
+    }
   } catch (error) {
-    return {
-      props: {
-        currentlyReading: [],
-        wantToRead: [],
-        previously_read: [],
-        nytTopTenBooks,
-        username,
-      },
-    };
+    ErrorToast("Something wrong");
   }
+
+  return {
+    props: {
+      ...shelves,
+      nytTopTenBooks,
+      username,
+    },
+  };
 };

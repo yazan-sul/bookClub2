@@ -2,6 +2,7 @@ import { Book } from "@/type/types";
 import { User } from "@/type/types";
 import { parse } from "cookie";
 import { GetServerSidePropsContext } from "next";
+import { pathForServer } from "./path";
 
 type ShelvesData = {
   currently_reading?: { books: Book[] };
@@ -43,17 +44,10 @@ export const fetchUserProfile = async (username: string, context: GetServerSideP
   try {
     const cookies = parse(context.req.headers.cookie || "");
     const user_id = cookies.user_id;
-    const access_token = cookies.access_token;
-    const username = cookies.username;
-
     if (!user_id) throw new Error("User ID not found in cookies");
 
 
-    const profileRes = await fetch(`${process.env.PUBLIC_API}/${user_id}/profile`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    const profileRes = await fetch(`${pathForServer(context)}/api/profile?user_id=${user_id}`);
     if (!profileRes.ok) {
       throw new Error("Failed to fetch profile data");
     }

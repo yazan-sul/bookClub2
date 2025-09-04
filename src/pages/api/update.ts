@@ -11,7 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = cookies.access_token;
     const userId = cookies.user_id;
 
-
     if (!userId || typeof userId !== "string") {
         return res.status(400).json({ error: "Missing user id" });
     }

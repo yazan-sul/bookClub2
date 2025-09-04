@@ -12,10 +12,9 @@ export default function BookPageDesc({ book }: { book: Book }) {
   const MAX_CHARACTERS = 400;
   const shouldTruncate = book.desc.length > MAX_CHARACTERS;
 
-  const visibleDesc =
-    !mounted || showMore
-      ? book.desc
-      : book.desc.slice(0, MAX_CHARACTERS) + (shouldTruncate ? "..." : "");
+  const visibleDesc = showMore
+    ? book.desc
+    : book.desc.slice(0, MAX_CHARACTERS) + (shouldTruncate ? "..." : "");
 
   return (
     <div className="flex flex-col justify-between">
@@ -25,7 +24,7 @@ export default function BookPageDesc({ book }: { book: Book }) {
           dangerouslySetInnerHTML={{ __html: visibleDesc }}
         />
 
-        {mounted && shouldTruncate && (
+        {shouldTruncate && (
           <button
             onClick={() => setShowMore((prev) => !prev)}
             className="text-gray-600 text-sm hover:underline"
