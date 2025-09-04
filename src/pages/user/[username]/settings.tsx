@@ -1,5 +1,5 @@
 import { User } from "@/type/types";
-import Settings from "@/components/settings";
+import Settings from "@/components/forms/settings";
 import { fetchUserProfile } from "@/utils/userData";
 import { GetServerSideProps } from "next";
 

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
-import SigninForm from "@/components/signinForm";
-import SubmitButton from "@/components/formButton";
-import Spinner from "@/components/spinner";
+import SigninForm from "@/components/forms/signinForm";
+import SubmitButton from "@/components/defaultComponents/formButton";
+import Spinner from "@/components/defaultComponents/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
 import { useAuth } from "@/context/AuthContext";
 

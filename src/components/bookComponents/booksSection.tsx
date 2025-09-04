@@ -1,5 +1,5 @@
 import { Book } from "@/type/types";
-import BookCard from "./bookCard";
+import BookCard from "./../cards/bookCard";
 type AllBooks = {
   books: Book[];
 };

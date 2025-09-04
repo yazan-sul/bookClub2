@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { parse } from "cookie";
 import { useShelfChange } from "@/hooks/useShelfChange";
-import Spinner from "./spinner";
+import Spinner from "../defaultComponents/spinner";
 import { Book } from "@/type/types";
 import { useAuth } from "@/context/AuthContext";
 export default function WantToReadCard({ book }: { book: Book }) {

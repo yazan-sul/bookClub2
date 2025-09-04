@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Book } from "../type/types";
+import { Book } from "../../type/types";
 
 export default function BookPageDesc({ book }: { book: Book }) {
   const [showMore, setShowMore] = useState(false);

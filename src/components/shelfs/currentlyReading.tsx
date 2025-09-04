@@ -1,8 +1,8 @@
 import { useShelfChange } from "@/hooks/useShelfChange";
 import { parse } from "cookie";
 import { useState, useEffect } from "react";
-import BookCard from "./bookCard";
-import { Book } from "../type/types";
+import BookCard from "./../cards/bookCard";
+import { Book } from "../../type/types";
 import { useAuth } from "@/context/AuthContext";
 
 export default function CurrentlyReading({ books }: { books: Book[] }) {

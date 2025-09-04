@@ -1,8 +1,8 @@
 import { Book } from "../type/types";
 import WelcomeMessage from "../components/welcomeMessage";
-import CurrentlyReading from "../components/currentlyReading";
-import WantToRead from "../components/wantToRead";
-import BooksSection from "../components/booksSection";
+import CurrentlyReading from "../components/shelfs/currentlyReading";
+import WantToRead from "../components/shelfs/wantToRead";
+import BooksSection from "../components/bookComponents/booksSection";
 import {
   fetchUserShelves,
   mapBookData,

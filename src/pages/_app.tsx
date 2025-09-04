@@ -1,5 +1,5 @@
-import Footer from "@/components/footer";
-import HeaderBar from "@/components/headerBar";
+import Footer from "@/components/defaultComponents/footer";
+import HeaderBar from "@/components/defaultComponents/headerBar";
 import { AuthProvider } from "@/context/AuthContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";

@@ -1,5 +1,5 @@
-import { Book } from "../type/types";
-import WantToReadCard from "./wantToReadCard";
+import { Book } from "../../type/types";
+import WantToReadCard from "./../cards/wantToReadCard";
 
 type WantToReadProps = {
   books: Book[];

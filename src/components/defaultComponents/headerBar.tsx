@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import UserMenu from "./userMenu";
-import SearchBar from "./searchBar";
+import UserMenu from "./../userMenu";
+import SearchBar from "./../searchBar";
 import { useAuth } from "@/context/AuthContext";
 
 export default function HeaderBar() {

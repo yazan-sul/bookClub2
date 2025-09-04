@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Book } from "@/type/types";
-import BooksSection from "@/components/booksSection";
-import Spinner from "@/components/spinner";
+import BooksSection from "@/components/bookComponents/booksSection";
+import Spinner from "@/components/defaultComponents/spinner";
 import { GetServerSideProps } from "next";
 import { pathForServer } from "@/utils/path";
 interface SearchBooksProps {
@@ -10,11 +10,35 @@ interface SearchBooksProps {
 }
 
 export default function SearchBooks({ initialResults }: SearchBooksProps) {
-  const [loading, setLoading] = useState(false);
-
   const router = useRouter();
   const { q } = router.query;
+  const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   const handleStart = (url: string) => {
+  //     if (url.includes("/search")) {
+  //       setLoading(true);
+  //     }
+  //   };
+  //   const handleComplete = () => setLoading(false);
+
+  //   router.events.on("routeChangeStart", handleStart);
+  //   router.events.on("routeChangeComplete", handleComplete);
+  //   router.events.on("routeChangeError", handleComplete);
+
+  //   return () => {
+  //     router.events.off("routeChangeStart", handleStart);
+  //     router.events.off("routeChangeComplete", handleComplete);
+  //     router.events.off("routeChangeError", handleComplete);
+  //   };
+  // }, [router]);
+  // if (loading) {
+  //   return (
+  //     <div className="p-6 flex justify-center items-center">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
   return (
     <div className="p-6">
       {initialResults.length > 0 ? (

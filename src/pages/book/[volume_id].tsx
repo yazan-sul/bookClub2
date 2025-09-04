@@ -1,12 +1,11 @@
 import { GetServerSideProps } from "next";
 import { Book } from "../../type/types";
-import { notFound } from "next/navigation";
 import {
   fetchUserShelvesClinet,
   mapGoogleBookToLocalBook,
 } from "@/utils/userData";
-import BookActions from "@/components/bookActions";
-import BookPageDesc from "@/components/bookPageDesc";
+import BookActions from "@/components/bookComponents/bookActions";
+import BookPageDesc from "@/components/bookComponents/bookPageDesc";
 import { parse } from "cookie";
 import { ErrorToast } from "@/utils/toast";
 
