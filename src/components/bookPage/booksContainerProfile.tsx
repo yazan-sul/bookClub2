@@ -1,5 +1,5 @@
 import React from "react";
-import BookCard from "./../cards/bookCard";
+import BookCard from "../cards/bookCard";
 import Link from "next/link";
 import { Book } from "@/type/types";
 

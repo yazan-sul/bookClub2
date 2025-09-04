@@ -1,4 +1,4 @@
-import InputField from "../defaultComponents/InputField";
+import InputField from "../core/InputField";
 
 export default function SignupForm({
   emailRef,

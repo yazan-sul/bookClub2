@@ -1,8 +1,8 @@
-import SubmitButton from "@/components/defaultComponents/formButton";
+import SubmitButton from "@/components/core/formButton";
 import { User } from "@/type/types";
 import { useRef, useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
-import Spinner from "../defaultComponents/spinner";
+import Spinner from "../core/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
 
 export default function Settings({ user }: { user: User }) {

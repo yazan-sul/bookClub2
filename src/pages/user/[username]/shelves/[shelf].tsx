@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import { Book } from "@/type/types";
-import BooksContainerProfile from "@/components/bookComponents/booksContainerProfile";
+import BooksContainerProfile from "@/components/bookPage/booksContainerProfile";
 import { mapBookData } from "@/utils/userData";
 import { parse } from "cookie";
 

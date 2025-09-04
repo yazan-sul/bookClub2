@@ -1,5 +1,5 @@
 import { Book, User } from "@/type/types";
-import BooksContainerProfile from "@/components/bookComponents/booksContainerProfile";
+import BooksContainerProfile from "@/components/bookPage/booksContainerProfile";
 import UserProfileCard from "@/components/cards/profileCard";
 import { fetchUserProfile, fetchUserShelves } from "@/utils/userData";
 import { GetServerSideProps } from "next";

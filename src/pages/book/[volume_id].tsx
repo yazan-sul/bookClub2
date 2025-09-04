@@ -4,8 +4,8 @@ import {
   fetchUserShelvesClinet,
   mapGoogleBookToLocalBook,
 } from "@/utils/userData";
-import BookActions from "@/components/bookComponents/bookActions";
-import BookPageDesc from "@/components/bookComponents/bookPageDesc";
+import BookActions from "@/components/bookPage/bookActions";
+import BookPageDesc from "@/components/bookPage/bookPageDesc";
 import { parse } from "cookie";
 import { ErrorToast } from "@/utils/toast";
 

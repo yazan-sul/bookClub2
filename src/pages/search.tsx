@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Book } from "@/type/types";
-import BooksSection from "@/components/bookComponents/booksSection";
-import Spinner from "@/components/defaultComponents/spinner";
+import BooksSection from "@/components/bookPage/booksSection";
+import Spinner from "@/components/core/spinner";
 import { GetServerSideProps } from "next";
 import { pathForServer } from "@/utils/path";
 interface SearchBooksProps {

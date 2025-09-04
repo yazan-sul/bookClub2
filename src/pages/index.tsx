@@ -2,7 +2,7 @@ import { Book } from "../type/types";
 import WelcomeMessage from "../components/welcomeMessage";
 import CurrentlyReading from "../components/shelfs/currentlyReading";
 import WantToRead from "../components/shelfs/wantToRead";
-import BooksSection from "../components/bookComponents/booksSection";
+import BooksSection from "../components/bookPage/booksSection";
 import {
   fetchUserShelves,
   mapBookData,
@@ -62,7 +62,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = parse(context.req.headers.cookie || "");
   const user_id = cookies.user_id;
   const username = cookies.username || null;
-
   let nytTopTenBooks: Book[] = [];
   let shelves = {
     currentlyReading: [] as Book[],

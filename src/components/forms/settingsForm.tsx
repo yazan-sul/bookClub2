@@ -1,6 +1,6 @@
 import React from "react";
 import { User } from "../../type/types";
-import InputField from "../defaultComponents/InputField";
+import InputField from "../core/InputField";
 
 interface UserFormFieldsProps {
   user: User;
