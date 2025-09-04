@@ -16,7 +16,7 @@ export default function CurrentlyReading({ books }: { books: Book[] }) {
     }
   }, []);
   const book = books[0];
-  const { handleShelfChange, loadingShelf, currentShelf } = useShelfChange({
+  const { handleShelfChange } = useShelfChange({
     userId,
     accessToken: accessToken ?? undefined,
     volumeData: {

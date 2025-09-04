@@ -38,7 +38,7 @@ export default function Signin() {
         router.push("/");
       }
     } catch (error) {
-      ErrorToast("failed to sign in!");
+      ErrorToast(`failed to sign in!: ${error}`);
     } finally {
       setLoading(false);
     }

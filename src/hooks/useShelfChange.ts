@@ -40,7 +40,7 @@ export function useShelfChange({ userId, volumeData }: UseShelfChangeParams) {
             SuccessToast("You updated your shelf.!");
             setCurrentShelf(shelf);
         } catch (err) {
-            ErrorToast("Something went wrong.");
+            ErrorToast(`Something went wrong: ${err}`);
         } finally {
             setLoadingShelf(null);
         }

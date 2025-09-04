@@ -43,7 +43,7 @@ export default function Signup() {
         router.push("/");
       }
     } catch (error) {
-      ErrorToast("failed to sign up!");
+      ErrorToast(`failed to sign up: ${error}`);
     } finally {
       setLoading(false);
     }

@@ -15,7 +15,7 @@ export default function WantToReadCard({ book }: { book: Book }) {
       setAccessToken(cookies.access_token || null);
     }
   }, []);
-  const { handleShelfChange, loadingShelf, currentShelf } = useShelfChange({
+  const { handleShelfChange, loadingShelf } = useShelfChange({
     userId,
     accessToken: accessToken ?? undefined,
     volumeData: {

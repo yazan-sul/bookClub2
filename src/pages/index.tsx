@@ -3,11 +3,7 @@ import WelcomeMessage from "../components/welcomeMessage";
 import CurrentlyReading from "../components/shelfs/currentlyReading";
 import WantToRead from "../components/shelfs/wantToRead";
 import BooksSection from "../components/bookPage/booksSection";
-import {
-  fetchUserShelves,
-  mapBookData,
-  fetchNytTopTen,
-} from "@/utils/userData";
+import { fetchUserShelves, fetchNytTopTen } from "@/utils/userData";
 import { parse } from "cookie";
 import { GetServerSideProps } from "next";
 import { ErrorToast } from "@/utils/toast";
@@ -23,9 +19,7 @@ type HomeProps = {
 export default function Home({
   currentlyReading,
   wantToRead,
-  previously_read,
   nytTopTenBooks,
-  username,
 }: HomeProps) {
   return (
     <div className="bg-slate-100 min-h-screen py-8 px-4">
@@ -85,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
   } catch (error) {
-    ErrorToast("Something wrong");
+    ErrorToast(`Something wrong: ${error}`);
   }
 
   return {
