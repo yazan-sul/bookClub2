@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { parse } from "cookie";
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -22,14 +21,6 @@ export const AuthProvider = ({
 }: AuthProviderProps) => {
   const [userId, setUserId] = useState<string | null>(initialUserId);
   const [username, setUsername] = useState<string | null>(initialUsername);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const cookies = parse(document.cookie || "");
-      setUserId(cookies.user_id || null);
-      setUsername(cookies.username || null);
-    }
-  }, []);
 
   const login = (userId: string, username: string) => {
     setUserId(userId);
