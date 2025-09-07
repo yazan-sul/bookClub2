@@ -1,53 +1,39 @@
 import React from "react";
-import { User } from "./profileCard";
-import InputField from "./InputField";
+import { User } from "../../type/types";
+import InputField from "../core/InputField";
 
 interface UserFormFieldsProps {
   user: User;
-  firstNameRef: React.RefObject<HTMLInputElement>;
-  lastNameRef: React.RefObject<HTMLInputElement>;
-  aboutRef: React.RefObject<HTMLInputElement>;
-  locationRef: React.RefObject<HTMLInputElement>;
 }
 
-const SettingsForm: React.FC<UserFormFieldsProps> = ({
-  user,
-  firstNameRef,
-  lastNameRef,
-  aboutRef,
-  locationRef,
-}) => {
+const SettingsForm: React.FC<UserFormFieldsProps> = ({ user }) => {
   return (
-    <>
+    <div>
       <InputField
         label="First name"
         name="firstName"
-        inputRef={firstNameRef}
         defaultValue={user.first_name ?? ""}
         type="text"
       />
       <InputField
         label="Last Name"
         name="lastName"
-        inputRef={lastNameRef}
         defaultValue={user.last_name ?? ""}
         type="text"
       />
       <InputField
-        label="about"
-        name="about"
-        inputRef={aboutRef}
+        label="bio"
+        name="bio"
         defaultValue={user.bio ?? ""}
         type="text"
       />
       <InputField
         label="location"
         name="location"
-        inputRef={locationRef}
         defaultValue={user.location ?? ""}
         type="text"
       />
-    </>
+    </div>
   );
 };
 

@@ -1,11 +1,12 @@
-import BookCard, { Book } from "./bookCard";
+import { Book } from "@/type/types";
+import BookCard from "../cards/bookCard";
 type AllBooks = {
   books: Book[];
 };
 
 export default function BooksSection({ books }: AllBooks) {
   return (
-    <div className="mt-10">
+    <div className="mt-10 ">
       <h2 className="font-bold text-3xl mb-2">The New York Times</h2>
       <p>Best selling books of the week</p>
 

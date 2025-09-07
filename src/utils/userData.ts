@@ -1,12 +1,13 @@
-import { Book } from "@/components/bookCard";
-import { User } from "@/components/profileCard";
+import { Book } from "@/type/types";
+import { User } from "@/type/types";
 import { parse } from "cookie";
 import { GetServerSidePropsContext } from "next";
+import { pathForServer } from "./path";
 
 type ShelvesData = {
-  currently_reading?: { books: any[] };
-  want_to_read?: { books: any[] };
-  previously_read?: { books: any[] };
+  currently_reading?: { books: Book[] };
+  want_to_read?: { books: Book[] };
+  previously_read?: { books: Book[] };
 };
 
 export const fetchUserProfileClient = async (username: string) => {
@@ -43,17 +44,10 @@ export const fetchUserProfile = async (username: string, context: GetServerSideP
   try {
     const cookies = parse(context.req.headers.cookie || "");
     const user_id = cookies.user_id;
-    const access_token = cookies.access_token;
-    const username = cookies.username;
-
     if (!user_id) throw new Error("User ID not found in cookies");
 
 
-    const profileRes = await fetch(`${process.env.PUBLIC_API}/${user_id}/profile`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    const profileRes = await fetch(`${pathForServer(context)}/api/profile?user_id=${user_id}`);
     if (!profileRes.ok) {
       throw new Error("Failed to fetch profile data");
     }
@@ -163,7 +157,7 @@ export async function fetchNytTopTen(): Promise<Book[]> {
   }
 }
 
-export function mapBookData(book: any): Book {
+export function mapBookData(book: Book): Book {
   return {
     volume_id: book.volume_id,
     title: book.title,
@@ -171,7 +165,7 @@ export function mapBookData(book: any): Book {
     authors: book.authors?.length ? book.authors : ["Unknown"],
     desc: book.desc || "",
     ratings: book.ratings || {},
-    img: book.img || book.imageLinks?.thumbnail || "",
+    img: book.img || book.img || "",
     detail: book.detail || { pubDate: "", pages: 0, lang: "" },
     shelf: book.shelf || "",
     start_time: book.start_time || "",

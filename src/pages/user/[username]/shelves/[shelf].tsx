@@ -1,8 +1,7 @@
 import { GetServerSideProps } from "next";
-import { Book } from "@/components/bookCard";
-import BooksContainerProfile from "@/components/booksContainerProfile";
+import { Book } from "@/type/types";
+import BooksContainerProfile from "@/components/bookPage/booksContainerProfile";
 import { mapBookData } from "@/utils/userData";
-import CurrentlyReading from "@/components/currentlyReading";
 import { parse } from "cookie";
 
 interface ShelfPageProps {
@@ -60,7 +59,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = parse(cookieHeader);
 
   const userId = cookies.user_id || null;
-  console.log(userId);
   const res = await fetch(`${process.env.PUBLIC_API}/${userId}/shelves`);
 
   const booksData = await res.json();

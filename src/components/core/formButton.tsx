@@ -1,4 +1,4 @@
-export default function FormButton({value} :{value : string}) {
+export default function SubmitButton({ value }: { value: string }) {
   return (
     <div className="pt-4">
       <button

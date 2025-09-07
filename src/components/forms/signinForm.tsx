@@ -1,4 +1,4 @@
-import InputField from "./InputField";
+import InputField from "../core/InputField";
 
 export default function SigninForm({
   usernameRef,

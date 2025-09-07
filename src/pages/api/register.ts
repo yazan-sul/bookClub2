@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         path: "/",
                     }),
                     serialize("access_token", access_token, {
-                        httpOnly: false,
+                        httpOnly: true,
                         secure: process.env.NODE_ENV === "production",
                         maxAge: 60 * 60 * 24 * 7,
                         sameSite: "lax",
@@ -39,8 +39,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             res.status(response.status).json(data);
-        } catch (error: any) {
-            res.status(500).json({ message: "Server Error", error: error.message })
+        } catch (error) {
+            res.status(500).json({ error: "Failed to fetch profile" })
+
         }
     } else {
         res.status(400).json({ message: "this is not Post method!" });

@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useAuth } from "@/context/AuthContext";
 
 interface LogoutButtonProps {
   onLogout?: () => void;
@@ -6,11 +7,13 @@ interface LogoutButtonProps {
 
 export default function LogoutButton({ onLogout }: LogoutButtonProps) {
   const router = useRouter();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     await fetch("/api/logout", { method: "POST" });
 
     if (onLogout) onLogout();
+    logout();
     router.push("/");
   };
 

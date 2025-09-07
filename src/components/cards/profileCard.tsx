@@ -1,15 +1,4 @@
-import { use } from "react";
-
-export interface User {
-  user_id: string;
-  first_name?: string;
-  last_name?: string;
-  location?: string;
-  birthday?: string | null;
-  bio?: string;
-  profile_picture?: string | null;
-  favourite_book?: string | null;
-}
+import { User } from "@/type/types";
 
 export default function UserProfileCard({
   username,
@@ -18,7 +7,6 @@ export default function UserProfileCard({
   username: string;
   user: User;
 }) {
-  
   const bio = user.bio;
   const firstName = user.first_name;
   const lastName = user.last_name;

@@ -1,14 +1,8 @@
-import { isLoggedIn } from "@/utils/auth";
+import { useAuth } from "@/context/AuthContext";
 
-import { useState, useEffect } from "react";
-
-export default function WelcomeMessage({ username }: { username: string }) {
-  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    setLoggedIn(() => isLoggedIn());
-  }, []);
-  if (loggedIn === null) {
+export default function WelcomeMessage() {
+  const { username, isLoggedIn } = useAuth();
+  if (isLoggedIn === null) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-white">
         <div className="bg-white p-8 rounded shadow-md text-center">
@@ -23,7 +17,7 @@ export default function WelcomeMessage({ username }: { username: string }) {
 
   return (
     <div className="my-8">
-      {loggedIn ? (
+      {isLoggedIn ? (
         <>
           <h1 className="font-bold text-3xl py-2">
             Welcome back, {username} 👋

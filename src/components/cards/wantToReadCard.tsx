@@ -2,38 +2,20 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { parse } from "cookie";
 import { useShelfChange } from "@/hooks/useShelfChange";
-import Spinner from "./spinner";
-export interface Book {
-  volume_id: string;
-  title: string;
-  subtitle?: string;
-  authors: string[];
-  desc: string;
-  ratings: Record<string, unknown>;
-  img: string;
-  detail: {
-    pubDate: string;
-    pages: number;
-    lang: string;
-  };
-  shelf: string;
-  start_time: string;
-  end_time: string;
-}
-
+import Spinner from "../core/spinner";
+import { Book } from "@/type/types";
+import { useAuth } from "@/context/AuthContext";
 export default function WantToReadCard({ book }: { book: Book }) {
-  const [userId, setUserId] = useState<string | null>(null);
+  const { userId } = useAuth();
   const [accessToken, setAccessToken] = useState<string | null>();
 
   useEffect(() => {
     if (typeof document !== "undefined") {
       const cookies = parse(document.cookie || "");
-      setUserId(cookies.user_id || null);
-
       setAccessToken(cookies.access_token || null);
     }
   }, []);
-  const { handleShelfChange, loadingShelf, currentShelf } = useShelfChange({
+  const { handleShelfChange, loadingShelf } = useShelfChange({
     userId,
     accessToken: accessToken ?? undefined,
     volumeData: {

@@ -1,28 +1,21 @@
 import LogoutButton from "@/pages/logout";
 import Link from "next/link";
-import { parse } from "cookie";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const UserMenu = () => {
-  const [open, setOpen] = useState(false);
-  const [username, setUsername] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const { username } = useAuth();
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const cookies = parse(document.cookie || "");
-    console.log("cookie name : ", cookies.username);
-    setUsername(cookies.username || null);
-  }, []);
-  const toggleMenu = () => setOpen((prev) => !prev);
-  const closeMenu = () => setOpen(false);
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const closeMenu = () => setIsOpen(false);
   return (
     <div className="relative inline-block text-left">
       <button
         onClick={toggleMenu}
         className="flex items-center space-x-2 px-4 py-2 bg-slate-200 border rounded-md shadow-sm hover:bg-slate-300"
         aria-haspopup="true"
-        aria-expanded={open}
+        aria-expanded={isOpen}
       >
         <span>{username}</span>
         <svg
@@ -41,7 +34,7 @@ const UserMenu = () => {
         </svg>
       </button>
 
-      {open && (
+      {isOpen && (
         <div
           className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-10"
           role="menu"

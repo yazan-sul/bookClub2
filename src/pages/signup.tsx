@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
-import SignupForm from "@/components/signupForm";
-import FormButton from "@/components/formButton";
+import SignupForm from "@/components/forms/signupForm";
+import SubmitButton from "@/components/core/formButton";
 import { fetchUserProfileClient } from "@/utils/userData";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/core/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Signup() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -13,6 +14,8 @@ export default function Signup() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
@@ -33,12 +36,14 @@ export default function Signup() {
       } else {
         const data = await res.json();
 
-        const profile = fetchUserProfileClient(username);
+        fetchUserProfileClient(username);
         SuccessToast("Signup success!!");
+        login(data.user_id, data.username);
+
         router.push("/");
       }
     } catch (error) {
-      ErrorToast("failed to sign up!");
+      ErrorToast(`failed to sign up: ${error}`);
     } finally {
       setLoading(false);
     }
@@ -57,7 +62,7 @@ export default function Signup() {
               usernameRef={usernameRef}
               passwordRef={passwordRef}
             />
-            {loading ? <Spinner /> : <FormButton value="Sign up" />}
+            {loading ? <Spinner /> : <SubmitButton value="Sign up" />}
           </form>
         </div>
       </div>

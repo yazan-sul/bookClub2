@@ -1,16 +1,15 @@
 import { useRouter } from "next/router";
+import { useRef } from "react";
 
-interface SearchBarProps {
-  query: string;
-  setQuery: (value: string) => void;
-}
-
-const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
+const SearchBar = () => {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) return;
+    const query = inputRef.current?.value.trim();
+
+    if (!query) return;
 
     router.push(`/search?q=${query}`);
   };
@@ -25,10 +24,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ query, setQuery }) => {
       <div>🔍</div>
       <input
         type="text"
+        id="query"
+        ref={inputRef}
         className="w-full bg-transparent placeholder:text-slate-400 focus:outline-none"
         placeholder="Search for a book..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
       />
       <button type="submit"></button>
     </form>

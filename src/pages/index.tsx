@@ -1,15 +1,12 @@
-import { Book } from "../components/bookCard";
+import { Book } from "../type/types";
 import WelcomeMessage from "../components/welcomeMessage";
-import CurrentlyReading from "../components/currentlyReading";
-import WantToRead from "../components/wantToRead";
-import BooksSection from "../components/booksSection";
-import {
-  fetchUserShelves,
-  mapBookData,
-  fetchNytTopTen,
-} from "@/utils/userData";
+import CurrentlyReading from "../components/shelfs/currentlyReading";
+import WantToRead from "../components/shelfs/wantToRead";
+import BooksSection from "../components/bookPage/booksSection";
+import { fetchUserShelves, fetchNytTopTen } from "@/utils/userData";
 import { parse } from "cookie";
 import { GetServerSideProps } from "next";
+import { ErrorToast } from "@/utils/toast";
 
 type HomeProps = {
   currentlyReading: Book[];
@@ -22,15 +19,13 @@ type HomeProps = {
 export default function Home({
   currentlyReading,
   wantToRead,
-  previously_read,
   nytTopTenBooks,
-  username,
 }: HomeProps) {
   return (
     <div className="bg-slate-100 min-h-screen py-8 px-4">
       {currentlyReading.length > 0 || wantToRead.length > 0 ? (
         <div className="max-w-screen-xl mx-auto space-y-20">
-          <WelcomeMessage username={username} />
+          <WelcomeMessage />
           <div className="flex flex-col md:flex-row gap-12">
             {currentlyReading.length > 0 && (
               <div className="md:w-1/4">
@@ -47,7 +42,7 @@ export default function Home({
         </div>
       ) : (
         <div className="flex flex-col max-w-screen-xl mx-auto space-y-20 items-center justify-center">
-          <WelcomeMessage username={username} />
+          <WelcomeMessage />
           <div className="max-w-screen-xl mx-auto space-y-20">
             <BooksSection books={nytTopTenBooks} />
           </div>
@@ -56,45 +51,42 @@ export default function Home({
     </div>
   );
 }
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookies = parse(context.req.headers.cookie || "");
   const user_id = cookies.user_id;
-  const nytTopTenBooks = await fetchNytTopTen();
   const username = cookies.username || null;
-
-  if (!user_id) {
-    return {
-      props: {
-        currentlyReading: [],
-        wantToRead: [],
-        previously_read: [],
-        nytTopTenBooks,
-        username,
-      },
-    };
-  }
+  let nytTopTenBooks: Book[] = [];
+  let shelves = {
+    currentlyReading: [] as Book[],
+    wantToRead: [] as Book[],
+    previously_read: [] as Book[],
+  };
 
   try {
-    const shelves = await fetchUserShelves(user_id);
+    const [nytBooks, userShelves] = await Promise.all([
+      fetchNytTopTen(),
+      user_id ? fetchUserShelves(user_id) : Promise.resolve(null),
+    ]);
 
-    return {
-      props: {
-        currentlyReading: shelves.currentlyReading,
-        wantToRead: shelves.wantToRead,
-        previously_read: shelves.previously_read,
-        nytTopTenBooks,
-        username,
-      },
-    };
+    nytTopTenBooks = nytBooks;
+
+    if (userShelves) {
+      shelves = {
+        currentlyReading: userShelves.currentlyReading || [],
+        wantToRead: userShelves.wantToRead || [],
+        previously_read: userShelves.previously_read || [],
+      };
+    }
   } catch (error) {
-    return {
-      props: {
-        currentlyReading: [],
-        wantToRead: [],
-        previously_read: [],
-        nytTopTenBooks,
-        username,
-      },
-    };
+    ErrorToast(`Something wrong: ${error}`);
   }
+
+  return {
+    props: {
+      ...shelves,
+      nytTopTenBooks,
+      username,
+    },
+  };
 };
