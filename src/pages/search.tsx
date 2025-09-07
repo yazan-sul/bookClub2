@@ -15,7 +15,7 @@ export default function SearchBooks({ initialResults }: SearchBooksProps) {
     <div className="p-6">
       {initialResults.length > 0 ? (
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="text-2xl font-bold mb-4">Search Results for "{q}"</h1>
+          <h1 className="text-2xl font-bold mb-4">Search Results for "{q}"`</h1>
           <BooksSection books={initialResults} />
         </div>
       ) : (
@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         initialResults,
       },
     };
-  } catch (error) {
+  } catch {
     return {
       props: {
         initialResults: [],
@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 
-export function mapGoogleBookToBook(book: any): Book {
+export function mapGoogleBookToBook(book: GoogleBook): Book {
   return {
     volume_id: book.id,
     title: book.volumeInfo?.title || "Untitled",
@@ -77,5 +77,19 @@ export function mapGoogleBookToBook(book: any): Book {
     shelf: "none",
     start_time: "",
     end_time: "",
+  };
+}
+interface GoogleBook {
+  id: string;
+  volumeInfo?: {
+    title?: string;
+    subtitle?: string;
+    authors?: string[];
+    description?: string;
+    averageRating?: number;
+    imageLinks?: { thumbnail?: string };
+    publishedDate?: string;
+    pageCount?: number;
+    language?: string;
   };
 }
