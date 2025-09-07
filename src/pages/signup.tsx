@@ -36,7 +36,7 @@ export default function Signup() {
       } else {
         const data = await res.json();
 
-        fetchUserProfileClient(username);
+        fetchUserProfileClient();
         SuccessToast("Signup success!!");
         login(data.user_id, data.username);
 

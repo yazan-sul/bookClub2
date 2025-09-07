@@ -10,7 +10,7 @@ type ShelvesData = {
   previously_read?: { books: Book[] };
 };
 
-export const fetchUserProfileClient = async (username: string) => {
+export const fetchUserProfileClient = async () => {
   try {
     if (typeof window === "undefined") throw new Error("Not in browser");
 
@@ -34,7 +34,7 @@ export const fetchUserProfileClient = async (username: string) => {
     const profileData: User = await profileRes.json();
 
     return { profileData, username };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -55,7 +55,7 @@ export const fetchUserProfile = async (username: string, context: GetServerSideP
     const profileData: User = await profileRes.json();
 
     return { profileData, username };
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -79,7 +79,7 @@ export async function fetchUserShelves(user_id: string) {
       previously_read:
         shelvesData.previously_read?.books?.map(mapBookData) || [],
     };
-  } catch (err) {
+  } catch {
     return {
       currentlyReading: [],
       wantToRead: [],
@@ -152,7 +152,7 @@ export async function fetchNytTopTen(): Promise<Book[]> {
         };
       }
     });
-  } catch (error) {
+  } catch {
     return [];
   }
 }
