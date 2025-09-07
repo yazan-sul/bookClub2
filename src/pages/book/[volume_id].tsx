@@ -8,7 +8,6 @@ import BookActions from "@/components/bookPage/bookActions";
 import BookPageDesc from "@/components/bookPage/bookPageDesc";
 import { parse } from "cookie";
 import { ErrorToast } from "@/utils/toast";
-import Image from "next/image";
 
 type Props = {
   book: Book | null;
@@ -26,12 +25,10 @@ export default function BookDetailPage({
   return (
     <div className="flex flex-col items-center p-20 space-y-20 ">
       <div className="flex items-center gap-28 justify-center">
-        <Image
-          className="h-auto object-cover"
-          width={64}
+        <img
+          className="w-48 h-auto object-cover"
           src={book.img}
           alt={book.title}
-          priority
         />
         <div className="flex flex-col space-y-2">
           <h1 className="font-bold text-4xl">{book.title}</h1>

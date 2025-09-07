@@ -112,7 +112,9 @@ export async function fetchUserShelvesClinet(user_id: string) {
   };
 }
 export async function fetchNytTopTen(): Promise<Book[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/nyt-top-ten`);
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_API}/nyt-top-ten`);
+  const res = await fetch(`https://bookclub-backend.nn.r.appspot.com/api/v1/nyt-top-ten`);
+
   if (!res.ok) return [];
 
   const data: NytTopTenEntry[] = await res.json();
