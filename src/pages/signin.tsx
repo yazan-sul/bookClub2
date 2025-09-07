@@ -60,7 +60,7 @@ export default function Signin() {
         className="hover:underline transition-all duration-200"
         href="./signup"
       >
-        Don't have an account? Sign up here
+        Don&apos;t have an account? Sign up here
       </Link>
     </div>
   );

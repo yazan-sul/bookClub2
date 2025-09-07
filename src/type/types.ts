@@ -44,3 +44,19 @@ export interface User {
     profile_picture?: string | null;
     favourite_book?: string | null;
 }
+
+export interface GoogleBook {
+    id: string;
+    volumeInfo?: {
+        title?: string;
+        subtitle?: string;
+        authors?: string[];
+        description?: string;
+        averageRating?: number;
+        imageLinks?: { thumbnail?: string };
+        publishedDate?: string;
+        pageCount?: number;
+        ratingsCount?: number;
+        language?: string;
+    };
+}

@@ -1,4 +1,4 @@
-import { Book } from "@/type/types";
+import { Book, GoogleBook } from "@/type/types";
 import { User } from "@/type/types";
 import { parse } from "cookie";
 import { GetServerSidePropsContext } from "next";
@@ -173,7 +173,7 @@ export function mapBookData(book: Book): Book {
   };
 }
 
-export function mapGoogleBookToLocalBook(googleBook: any): Book {
+export function mapGoogleBookToLocalBook(googleBook: GoogleBook): Book {
   const volumeInfo = googleBook.volumeInfo || {};
 
   return {

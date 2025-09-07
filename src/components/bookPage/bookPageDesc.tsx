@@ -3,12 +3,6 @@ import { Book } from "../../type/types";
 
 export default function BookPageDesc({ book }: { book: Book }) {
   const [showMore, setShowMore] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const MAX_CHARACTERS = 400;
   const shouldTruncate = book.desc.length > MAX_CHARACTERS;
 

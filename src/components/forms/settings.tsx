@@ -1,6 +1,6 @@
 import SubmitButton from "@/components/core/formButton";
 import { User } from "@/type/types";
-import { useRef, useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import SettingsForm from "./settingsForm";
 import Spinner from "../core/spinner";
 import { ErrorToast, SuccessToast } from "@/utils/toast";
@@ -27,7 +27,7 @@ export default function Settings({ user }: { user: User }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/update`, {
+      await fetch(`/api/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function Settings({ user }: { user: User }) {
       });
 
       SuccessToast("Updated!");
-    } catch (err) {
+    } catch {
       ErrorToast("Failed to update!");
     } finally {
       setLoading(false);

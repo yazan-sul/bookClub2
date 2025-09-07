@@ -1,6 +1,6 @@
 import LogoutButton from "@/pages/logout";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 const UserMenu = () => {

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Book } from "@/type/types";
+import { Book, GoogleBook } from "@/type/types";
 import BooksSection from "@/components/bookPage/booksSection";
 import { GetServerSideProps } from "next";
 import { pathForServer } from "@/utils/path";
@@ -15,7 +15,9 @@ export default function SearchBooks({ initialResults }: SearchBooksProps) {
     <div className="p-6">
       {initialResults.length > 0 ? (
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="text-2xl font-bold mb-4">Search Results for "{q}"`</h1>
+          <h1 className="text-2xl font-bold mb-4">
+            {`Search Results for "${q}"`}
+          </h1>
           <BooksSection books={initialResults} />
         </div>
       ) : (
@@ -77,19 +79,5 @@ export function mapGoogleBookToBook(book: GoogleBook): Book {
     shelf: "none",
     start_time: "",
     end_time: "",
-  };
-}
-interface GoogleBook {
-  id: string;
-  volumeInfo?: {
-    title?: string;
-    subtitle?: string;
-    authors?: string[];
-    description?: string;
-    averageRating?: number;
-    imageLinks?: { thumbnail?: string };
-    publishedDate?: string;
-    pageCount?: number;
-    language?: string;
   };
 }
