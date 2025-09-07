@@ -1,4 +1,5 @@
 import { User } from "@/type/types";
+import Image from "next/image";
 
 export default function UserProfileCard({
   username,
@@ -16,10 +17,13 @@ export default function UserProfileCard({
   return (
     <div className="relative h-72 w-80 flex flex-col bg-white px-6 pt-16 pb-6 rounded-lg shadow-lg ">
       <div className="absolute -top-12 left-0 w-full flex justify-center">
-        <img
+        <Image
           src="/favicon.ico"
           alt="User profile"
-          className="w-48 h-48 object-cover rounded-full border-2 border-indigo-600 "
+          height={48}
+          width={48}
+          priority
+          className="object-cover rounded-full border-2 border-indigo-600 "
         />
       </div>
 

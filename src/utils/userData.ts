@@ -112,50 +112,42 @@ export async function fetchUserShelvesClinet(user_id: string) {
   };
 }
 export async function fetchNytTopTen(): Promise<Book[]> {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/nyt-top-ten`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/nyt-top-ten`);
+  if (!res.ok) return [];
 
-    if (!res.ok) {
-      return [];
+  const data: NytTopTenEntry[] = await res.json();
+
+  return data.map((entry) => {
+    const nyt = entry.nyt;
+    const googleBook = entry.google_books?.items?.[0];
+
+    if (googleBook && googleBook.id) {
+      return mapGoogleBookToLocalBook(googleBook);
     }
-    const data = await res.json();
 
-
-    return data.map((entry: any): Book => {
-      const nyt = entry.nyt || {};
-      const googleBook = entry.google_books?.items?.[0];
-
-      if (googleBook) {
-
-        return mapGoogleBookToLocalBook(googleBook);
-      } else {
-
-        return {
-          volume_id: nyt.primary_isbn13 || nyt.title,
-          title: nyt.title || "Untitled",
-          subtitle: "",
-          authors: nyt.author ? [nyt.author] : ["Unknown"],
-          desc: nyt.description || "",
-          img: nyt.book_image || "",
-          detail: {
-            pubDate: nyt.published_date || "",
-            pages: 0,
-            lang: "",
-          },
-          ratings: {
-            avg: 0,
-            count: 0,
-          },
-          shelf: "",
-          start_time: "",
-          end_time: "",
-        };
-      }
-    });
-  } catch {
-    return [];
-  }
+    return {
+      volume_id: nyt.primary_isbn13 || nyt.title,
+      title: nyt.title,
+      subtitle: "",
+      authors: nyt.author ? [nyt.author] : ["Unknown"],
+      desc: nyt.description,
+      img: nyt.book_image,
+      detail: {
+        pubDate: nyt.created_date || "", // Note: from your example it is updated_date or created_date - choose one
+        pages: 0,
+        lang: "",
+      },
+      ratings: {
+        avg: 0,
+        count: 0,
+      },
+      shelf: "",
+      start_time: "",
+      end_time: "",
+    };
+  });
 }
+
 
 export function mapBookData(book: Book): Book {
   return {
@@ -196,4 +188,131 @@ export function mapGoogleBookToLocalBook(googleBook: GoogleBook): Book {
     start_time: "",
     end_time: "",
   };
+}
+export interface NytIsbn {
+  isbn10: string;
+  isbn13: string;
+}
+
+export interface NytBuyLink {
+  name: string;
+  url: string;
+}
+
+export interface NytData {
+  age_group: string;
+  amazon_product_url: string;
+  article_chapter_link: string;
+  asterisk: number;
+  author: string;
+  book_image: string;
+  book_image_height: number;
+  book_image_width: number;
+  book_review_link: string;
+  book_uri: string;
+  contributor: string;
+  contributor_note: string;
+  created_date: string; // ISO string
+  dagger: number;
+  description: string;
+  first_chapter_link: string;
+  price: string;
+  primary_isbn10: string;
+  primary_isbn13: string;
+  publisher: string;
+  rank: number;
+  rank_last_week: number;
+  sunday_review_link: string;
+  title: string;
+  updated_date: string; // ISO string
+  weeks_on_list: number;
+  isbns: NytIsbn[];
+  buy_links: NytBuyLink[];
+}
+
+export interface GoogleBooksImageLinks {
+  smallThumbnail?: string;
+  thumbnail?: string;
+}
+
+export interface GoogleBooksVolumeInfo {
+  title?: string;
+  subtitle?: string;
+  authors?: string[];
+  publisher?: string;
+  publishedDate?: string;
+  description?: string;
+  industryIdentifiers?: Array<{
+    type: string;
+    identifier: string;
+  }>;
+  readingModes?: {
+    text: boolean;
+    image: boolean;
+  };
+  pageCount?: number;
+  printType?: string;
+  categories?: string[];
+  maturityRating?: string;
+  allowAnonLogging?: boolean;
+  contentVersion?: string;
+  panelizationSummary?: {
+    containsEpubBubbles: boolean;
+    containsImageBubbles: boolean;
+  };
+  imageLinks?: GoogleBooksImageLinks;
+  language?: string;
+  previewLink?: string;
+  infoLink?: string;
+  canonicalVolumeLink?: string;
+}
+
+export interface GoogleBooksSaleInfo {
+  country?: string;
+  saleability?: string;
+  isEbook?: boolean;
+}
+
+export interface GoogleBooksAccessInfo {
+  country?: string;
+  viewability?: string;
+  embeddable?: boolean;
+  publicDomain?: boolean;
+  textToSpeechPermission?: string;
+  epub?: {
+    isAvailable: boolean;
+  };
+  pdf?: {
+    isAvailable: boolean;
+  };
+  webReaderLink?: string;
+  accessViewStatus?: string;
+  quoteSharingAllowed?: boolean;
+}
+
+export interface GoogleBooksSearchInfo {
+  textSnippet?: string;
+}
+
+export interface GoogleBookItem {
+  kind?: string;
+  id: string;
+  etag?: string;
+  selfLink?: string;
+  volumeInfo?: GoogleBooksVolumeInfo;
+  saleInfo?: GoogleBooksSaleInfo;
+  accessInfo?: GoogleBooksAccessInfo;
+  searchInfo?: GoogleBooksSearchInfo;
+}
+
+export interface GoogleBooks {
+  kind?: string;
+  totalItems?: number;
+  items?: GoogleBookItem[];
+}
+
+export interface NytTopTenEntry {
+  nyt: NytData;
+  rank: number;
+  google_books?: GoogleBooks;
 }

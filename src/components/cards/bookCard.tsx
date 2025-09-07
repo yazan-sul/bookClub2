@@ -1,5 +1,6 @@
 import { Book } from "@/type/types";
 import Link from "next/link";
+import Image from "next/image";
 
 type CardProps = {
   book: Book;
@@ -15,9 +16,12 @@ export default function BookCard({ book, flag }: CardProps) {
           flag ? "" : "flex justify-center items-center"
         }`}
       >
-        <img
-          className="rounded-md object-contain w-36 p-2 h-48"
+        <Image
+          className="rounded-md object-contain p-2"
           src={getBookImage(book)}
+          height={48}
+          width={36}
+          priority
           alt={book.title}
         />
       </div>

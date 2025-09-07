@@ -2,7 +2,7 @@ import Footer from "@/components/core/footer";
 import HeaderBar from "@/components/core/headerBar";
 import { AuthProvider } from "@/context/AuthContext";
 import "@/styles/globals.css";
-import type { AppProps } from "next/app";
+import type { AppContext, AppProps } from "next/app";
 import App from "next/app";
 import { Toaster } from "react-hot-toast";
 import { PagesTopLoader } from "nextjs-toploader/pages";
@@ -32,11 +32,11 @@ export default function MyApp({
     </AuthProvider>
   );
 }
-MyApp.getInitialProps = async (appContext: any) => {
+MyApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
 
   const req = appContext.ctx.req;
-  let authData: { userId: string | null; username: string | null } = {
+  const authData: { userId: string | null; username: string | null } = {
     userId: null,
     username: null,
   };

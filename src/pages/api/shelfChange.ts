@@ -37,12 +37,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         );
 
         if (!response.ok) {
-            const errorText = await response.text();
+            await response.text();
             return res.status(response.status).json({ error: "Failed to update shelf" });
         }
         const data = await response.text();
         return res.status(200).json(data);
-    } catch (error) {
+    } catch {
         return res.status(500).json({ error: "Server error" });
     }
 }

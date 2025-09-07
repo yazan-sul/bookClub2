@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Book } from "../../type/types";
 
 export default function BookPageDesc({ book }: { book: Book }) {
